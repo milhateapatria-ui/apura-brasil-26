@@ -1,0 +1,9 @@
+{
+  "name": "apura-brasil-26",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Painel independente de resultados eleitorais baseado exclusivamente nos arquivos JSON oficiais do TSE.",
+  "engines": { "node": ">=20" },
+  "scripts": { "dev": "vercel dev", "test": "node --test" },
+  "devDependencies": { "vercel": "^41.6.0" }
+}
