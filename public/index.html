@@ -16,7 +16,7 @@
 <body>
 <header><div class="brand"><div class="logo">A</div><div><h1>Apura Brasil <span style="color:#54d6a0">26</span></h1><p>Painel independente de resultados eleitorais</p></div></div><div class="status" id="status">Conectando ao TSE…</div></header>
 <main class="wrap">
-<div class="notice" id="notice" role="status"><span>ⓘ</span><div><strong>Fonte exclusiva: Tribunal Superior Eleitoral (TSE).</strong>Os números só serão exibidos quando forem obtidos e validados a partir dos arquivos oficiais do TSE. Se a fonte não responder ou ainda não publicar o recorte, o painel informará isso — sem estimativas nem dados de demonstração. <a class="source" href="https://resultados.tse.jus.br/oficial/app/index.html#/eleicao/6257/uf/br/cargo/1/vis/nominal/resultados" target="_blank" rel="noopener">Abrir portal oficial ↗</a></div></div>
+<div class="notice" id="notice" role="status"><span>ⓘ</span><div><strong>Fonte exclusiva: Tribunal Superior Eleitoral (TSE).</strong>Os números só serão exibidos quando forem obtidos e validados a partir dos arquivos oficiais do TSE. <a class="source" href="https://resultados.tse.jus.br/oficial/app/index.html" target="_blank" rel="noopener">Abrir portal oficial ↗</a></div></div>
 <div class="topline"><div><div class="eyebrow">Eleições gerais · 2026</div><h2>Resultados oficiais, por localidade.</h2><p class="sub">Dados publicados pelo TSE; atualização conforme a disponibilidade da fonte.</p></div><div class="controls"><select class="select" id="round" aria-label="Turno"><option value="1">1º turno</option><option value="2">2º turno</option></select><select class="select" id="office" aria-label="Cargo"><option value="presidente">Presidente</option><option value="governador">Governador</option><option value="senador">Senador</option><option value="deputado-federal">Deputado federal</option><option value="deputado-estadual">Deputado estadual</option><option value="deputado-distrital">Deputado distrital</option></select><select class="select" id="state" aria-label="Estado"><option value="br">Brasil inteiro</option></select><select class="select" id="city" aria-label="Município" disabled><option value="">Todos os municípios / abrangência estadual</option></select><button class="primary" id="refresh">Atualizar</button></div></div>
 
 <!-- Atalho Rápido para Seleção de Estados -->
@@ -47,13 +47,40 @@
   <p class="footnote" id="sourceMeta">Aguardando resposta da fonte oficial.</p>
 </section>
 
-<section class="panel"><div class="panel-head"><div><h3>Resumo da votação</h3><p>Valores recebidos no arquivo EA20</p></div></div><div class="tablewrap"><table><thead><tr><th>Candidato</th><th class="right">Votos</th><th class="right">%</th></tr></thead><tbody id="rows"><tr><td colspan="3" class="empty">Aguardando dados oficiais.</td></tr></tbody></table></div><div style="border-top:1px solid var(--line);padding-top:13px;margin-top:14px"><h3>Indicadores da abrangência</h3><div class="footnote" id="otherStats">Os totais serão exibidos somente quando informados pelo TSE.</div></div></section></div>
+<section class="panel">
+  <div class="panel-head">
+    <div>
+      <h3 id="rightPanelTitle">Resumo da votação</h3>
+      <p id="rightPanelSub">Valores recebidos no arquivo EA20</p>
+    </div>
+  </div>
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr>
+          <th id="col1Title">Candidato</th>
+          <th class="right">Votos</th>
+          <th class="right">%</th>
+        </tr>
+      </thead>
+      <tbody id="rows">
+        <tr><td colspan="3" class="empty">Aguardando dados oficiais.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="border-top:1px solid var(--line);padding-top:13px;margin-top:14px">
+    <h3>Indicadores da abrangência</h3>
+    <div class="footnote" id="otherStats">Os totais serão exibidos somente quando informados pelo TSE.</div>
+  </div>
+</section>
+</div>
 <div class="footer"><span>Projeto independente; não representa nem substitui o TSE.</span><span><a href="https://www.tse.jus.br/eleicoes/informacoes-tecnicas-sobre-a-divulgacao-de-resultados" target="_blank" rel="noopener">Documentação técnica oficial ↗</a> · <a href="https://resultados.tse.jus.br/oficial/app/index.html" target="_blank" rel="noopener">Portal de resultados ↗</a></span></div>
 </main>
 <script>
 const UFS=[['ac','Acre'],['al','Alagoas'],['ap','Amapá'],['am','Amazonas'],['ba','Bahia'],['ce','Ceará'],['df','Distrito Federal'],['es','Espírito Santo'],['go','Goiás'],['ma','Maranhão'],['mt','Mato Grosso'],['ms','Mato Grosso do Sul'],['mg','Minas Gerais'],['pa','Pará'],['pb','Paraíba'],['pr','Paraná'],['pe','Pernambuco'],['pi','Piauí'],['rj','Rio de Janeiro'],['rn','Rio Grande do Norte'],['rs','Rio Grande do Sul'],['ro','Rondônia'],['rr','Roraima'],['sc','Santa Catarina'],['sp','São Paulo'],['se','Sergipe'],['to','Tocantins']];
 const $=id=>document.getElementById(id); const fmt=n=>n==null?'—':Number(n).toLocaleString('pt-BR'); const pct=n=>n==null?'—':Number(n).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+'%';
 let busy=false;
+let rawCandidates=[];
 
 function setNotice(message,isError=false){
   const notice=$('notice');
@@ -114,6 +141,42 @@ function resetDisplay(){
   if($('sourceMeta'))$('sourceMeta').textContent='Aguardando resposta da fonte oficial.';
 }
 
+function renderDefaultTable(candidates){
+  $('rightPanelTitle').textContent = 'Resumo da votação';
+  $('rightPanelSub').textContent = 'Valores recebidos no arquivo EA20';$('col1Title').textContent = 'Candidato';
+  
+  if(!candidates.length) {
+    $('rows').innerHTML = `<tr><td colspan="3" class="empty">Aguardando publicação dos resultados pelo TSE.</td></tr>`;
+    return;
+  }
+
+  $('rows').innerHTML = candidates.map(x=>`<tr><td>${escapeHtml(x.name)}<div class="candparty">${escapeHtml(x.party||'')}</div></td><td class="right">${fmt(x.votes)}</td><td class="right">${pct(x.percent)}</td></tr>`).join('');
+}
+
+async function loadCandidateCities(candNumber, candName){
+  const state = $('state').value;
+  const office = $('office').value;
+  const round = $('round').value;
+
+  $('rightPanelTitle').textContent = `Cidades + Votadas: ${candName}`;
+  $('rightPanelSub').textContent = `Ordenado do maior para o menor total de votos`;
+  $('col1Title').textContent = 'Município';
+  $('rows').innerHTML = `<tr><td colspan="3" class="empty">Buscando votação por município...</td></tr>`;
+
+  try {
+    const r = await fetch(`/api/candidate-cities?number=${candNumber}&state=${state}&office=${office}&round=${round}`);
+    const d = await r.json();
+
+    if(d.ok && d.cities && d.cities.length > 0){
+      $('rows').innerHTML = d.cities.map((c, idx) => `<tr><td><b>${idx + 1}º</b> ${escapeHtml(c.cityName)}</td><td class="right">${fmt(c.votes)}</td><td class="right">${pct(c.percent)}</td></tr>`).join('');
+    } else {
+      $('rows').innerHTML = `<tr><td colspan="3" class="empty">Nenhum detalhamento por município encontrado para este candidato no momento.</td></tr>`;
+    }
+  } catch(e) {
+    $('rows').innerHTML = `<tr><td colspan="3" class="empty">Não foi possível carregar as cidades deste candidato.</td></tr>`;
+  }
+}
+
 async function loadResults(){
   if(busy)return;
   busy=true;
@@ -133,7 +196,8 @@ async function loadResults(){
 
     if(!r.ok || !d.ok) throw new Error(d?.error?.message || 'A consulta oficial não está disponível.');
 
-    const c=d.candidates||[];
+    rawCandidates = d.candidates || [];
+    const c = rawCandidates;
 
     if($('votes'))$('votes').textContent=fmt(d.votes?.total);
     if($('votesFoot'))$('votesFoot').textContent='Votos totais informados no arquivo';
@@ -145,23 +209,23 @@ async function loadResults(){
 
     if(!c.length) {
       if($('candidateBars')) { $('candidateBars').className='empty';$('candidateBars').textContent=d.message || 'Aguardando publicação dos resultados pelo TSE.'; }
-      if($('rows'))$('rows').innerHTML=`<tr><td colspan="3" class="empty">${escapeHtml(d.message || 'Aguardando publicação dos resultados pelo TSE.')}</td></tr>`;
+      renderDefaultTable([]);
     } else {
       if($('candidateBars')) {
         $('candidateBars').className='';$('candidateBars').innerHTML=c.map((x,i)=>`<div class="candidate"><div class="candtop"><div style="display:flex;align-items:center;gap:10px;"><div class="candphoto-placeholder">${escapeHtml(x.name ? x.name[0] : '?')}</div><div><div class="candname">${escapeHtml(x.name)}</div><div class="candparty">${escapeHtml([x.number?`Nº ${x.number}`:'',x.party,x.partyName].filter(Boolean).join(' · '))}</div></div></div><strong>${pct(x.percent)}</strong></div><div class="bar"><div class="fill" style="width:${Math.max(0,Math.min(100,Number(x.percent)||0))}%"></div></div><div class="candmeta"><span>${fmt(x.votes)} votos</span><span>${x.elected?'Eleito conforme arquivo TSE':''}</span></div></div>`).join('');
       }
-      if($('rows'))$('rows').innerHTML=c.map(x=>`<tr><td>${escapeHtml(x.name)}<div class="candparty">${escapeHtml(x.party||'')}</div></td><td class="right">${fmt(x.votes)}</td><td class="right">${pct(x.percent)}</td></tr>`).join('');
+      renderDefaultTable(c);
     }
 
     if($('otherStats'))$('otherStats').textContent=`Votos válidos: ${fmt(d.votes?.valid)} · Nominais: ${fmt(d.votes?.nominal)} · Brancos: ${fmt(d.votes?.blank)} · Nulos: ${fmt(d.votes?.null)} · Comparecimento: ${fmt(d.voters?.turnout)} · Abstenções: ${fmt(d.voters?.abstentions)}`;
     if($('sourceMeta'))$('sourceMeta').innerHTML=`Fonte: <a class="source" href="${escapeHtml(d.sourceUrl||'#')}" target="_blank" rel="noopener">arquivo oficial EA20 do TSE ↗</a> · Totalização: ${escapeHtml(d.totalizationDate||'—')} ${escapeHtml(d.totalizationTime||'')}`;
     if($('status'))$('status').textContent='Fonte oficial conectada';
-    setNotice('Conexão estabelecida com a fonte oficial do TSE. A atualização ocorre automaticamente conforme a disponibilização dos arquivos.');
+    setNotice('Conexão estabelecida com a fonte oficial do TSE.');
   }catch(e){
     if($('status'))$('status').textContent='Fonte indisponível';
     setNotice(e.message||'Não foi possível consultar o TSE.',true);
     if($('candidateBars')) { $('candidateBars').className='empty';$('candidateBars').textContent=e.message||'Dados oficiais indisponíveis.'; }
-    if($('rows'))$('rows').innerHTML=`<tr><td colspan="3" class="empty">${escapeHtml(e.message||'Dados oficiais indisponíveis.')}</td></tr>`;
+    renderDefaultTable([]);
   }finally{
     busy=false;
     if($('refresh'))$('refresh').disabled=false;
@@ -174,13 +238,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const search = $('searchCandidate');
   if(search){
+    let searchTimeout;
     search.addEventListener('input', (e) => {
       const term = e.target.value.toLowerCase().trim();
       const items = document.querySelectorAll('#candidateBars .candidate');
+      let matchedCand = null;
+
       items.forEach(item => {
         const text = item.textContent.toLowerCase();
-        item.style.display = text.includes(term) ? '' : 'none';
+        const matches = text.includes(term);
+        item.style.display = matches ? '' : 'none';
       });
+
+      if (term.length > 2) {
+        matchedCand = rawCandidates.find(c => (c.name || '').toLowerCase().includes(term));
+      }
+
+      clearTimeout(searchTimeout);
+      if (matchedCand && matchedCand.number) {
+        searchTimeout = setTimeout(() => {
+          loadCandidateCities(matchedCand.number, matchedCand.name);
+        }, 400);
+      } else {
+        renderDefaultTable(rawCandidates);
+      }
     });
   }
 
