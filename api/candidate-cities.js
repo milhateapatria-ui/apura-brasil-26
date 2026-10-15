@@ -16,7 +16,7 @@ async function fetchTse(url) {
         'accept': 'application/json, text/plain, */*',
         'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
       },
-      signal: AbortSignal.timeout(5000)
+      signal: AbortSignal.timeout(6000)
     });
     if (res.ok) return await res.json();
   } catch (e) {}
@@ -45,7 +45,7 @@ module.exports = async function handler(req, res) {
   const election = round === '2' ? '6260' : '6259';
 
   try {
-    // 1. Obtém a lista de municípios do estado
+    // 1. Carrega o dicionário de nomes dos municípios do estado
     let munUrl = `https://resultados.tse.jus.br/oficial/ele2026/${election}/config/${uf}/${uf}-m.json`;
     let munData = await fetchTse(munUrl);
     if (!munData || !Array.isArray(munData.muni)) {
@@ -53,60 +53,56 @@ module.exports = async function handler(req, res) {
       munData = await fetchTse(munUrl);
     }
 
-    const allMuni = (munData?.muni || []).filter(m => m.cd);
-    if (!allMuni.length) {
-      return res.status(200).json({ ok: true, cities: [] });
+    const cityNamesMap = new Map();
+    (munData?.muni || []).forEach(m => {
+      if (m.cd) cityNamesMap.set(String(m.cd).padStart(5, '0'), m.nm);
+    });
+
+    // 2. Carrega o arquivo consolidado de resultados do estado
+    let detailUrls = [
+      `https://resultados.tse.jus.br/oficial/ele2026/${election}/dados/${uf}/${uf}-c${cCode}-e00${election}-u.json`,
+      `https://resultados.tse.jus.br/oficial/ele2024/306/dados/${uf}/${uf}-c${cCode}-e000306-u.json`,
+      `https://resultados.tse.jus.br/oficial/ele2024/306/dados/${uf}/${uf}-c${cCode}-e000306-v.json`
+    ];
+
+    let root = null;
+    for (const url of detailUrls) {
+      root = await fetchTse(url);
+      if (root && Array.isArray(root.carg)) break;
     }
 
-    // Seleciona os principais municípios para consulta rápida e certeira
-    const targetMuni = allMuni.slice(0, 30);
     const cityResults = [];
 
-    // Consulta em paralelo controlada
-    await Promise.all(
-      targetMuni.map(async (m) => {
-        const code = String(m.cd).padStart(5, '0');
-        const urls = [
-          `https://resultados.tse.jus.br/oficial/ele2026/${election}/dados/${uf}/${uf}${code}-c${cCode}-e00${election}-u.json`,
-          `https://resultados.tse.jus.br/oficial/ele2024/306/dados/${uf}/${uf}${code}-c${cCode}-e000306-u.json`,
-          `https://resultados.tse.jus.br/oficial/ele2024/306/dados/${uf}/${uf}${code}-c${cCode}-e000306-v.json`
-        ];
-
-        for (const url of urls) {
-          const root = await fetchTse(url);
-          if (!root || !Array.isArray(root.carg)) continue;
-
-          let found = false;
-          for (const cargo of root.carg) {
-            for (const agg of (cargo.agr || [])) {
-              for (const party of (agg.par || [])) {
-                for (const cand of (party.cand || [])) {
-                  if (String(cand.n) === candNumber) {
-                    const votes = Number(String(cand.vap || 0).replace(',', '.'));
-                    const percent = Number(String(cand.pvap || 0).replace(',', '.'));
+    if (root && Array.isArray(root.carg)) {
+      for (const cargo of root.carg) {
+        for (const agg of (cargo.agr || [])) {
+          for (const party of (agg.par || [])) {
+            for (const cand of (party.cand || [])) {
+              if (String(cand.n) === candNumber) {
+                // Procura a lista de municípios (`mun`) dentro do objeto oficial do candidato
+                const munArray = cand.mun || cand.municipios || [];
+                if (Array.isArray(munArray)) {
+                  for (const m of munArray) {
+                    const code = String(m.cd || m.codigo || '').padStart(5, '0');
+                    const votes = Number(String(m.vap || m.votos || 0).replace(',', '.'));
+                    const percent = Number(String(m.pvap || 0).replace(',', '.'));
                     if (votes > 0) {
                       cityResults.push({
-                        cityName: m.nm,
+                        cityName: cityNamesMap.get(code) || `Município ${code}`,
                         votes,
                         percent
                       });
-                      found = true;
-                      break;
                     }
                   }
                 }
-                if (found) break;
               }
-              if (found) break;
             }
-            if (found) break;
           }
-          if (found) break;
         }
-      })
-    );
+      }
+    }
 
-    // ORDENAÇÃO DECRESCENTE RIGOROSA: do município com MAIS votos para o com MENOS votos
+    // ORDENAÇÃO RIGOROSA: do município com MAIS votos para o com MENOS votos
     cityResults.sort((a, b) => b.votes - a.votes);
 
     return res.status(200).json({
