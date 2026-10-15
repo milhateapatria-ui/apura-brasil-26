@@ -6,8 +6,10 @@
 <meta name="description" content="Painel independente de consulta aos arquivos oficiais de resultados eleitorais do TSE.">
 <title>Apura Brasil 26 — Resultados oficiais</title>
 <style>
-:root{color-scheme:light;--bg:#f4f7f6;--panel:#fff;--ink:#17251f;--muted:#687970;--line:#dfe8e3;--green:#087f5b;--green2:#18a77a;--soft:#e8f5ef;--warn:#fff4d6;--warnink:#725416;--red:#9d3028}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}header{background:#10251f;color:#fff;padding:20px max(18px,calc((100vw - 1180px)/2));display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{display:flex;gap:12px;align-items:center}.logo{width:42px;height:42px;border-radius:12px;background:var(--green2);display:grid;place-items:center;font-size:22px;font-weight:850}.brand h1{font-size:20px;margin:0}.brand p{margin:1px 0 0;color:#b9d5ca;font-size:12px}.status{font-size:12px;border:1px solid #557368;border-radius:999px;padding:6px 10px;color:#d7eee4;white-space:nowrap}.wrap{max-width:1180px;margin:auto;padding:24px 18px 42px}.notice{display:flex;gap:10px;background:var(--warn);color:var(--warnink);border:1px solid #eadba9;padding:13px 15px;border-radius:12px;font-size:13px;margin-bottom:22px}.notice strong{display:block;margin-bottom:2px}.notice.error{background:#fff0ef;color:var(--red);border-color:#efc6c2}.source{color:var(--green);font-weight:700}.topline{display:flex;justify-content:space-between;align-items:end;gap:18px;margin-bottom:18px}.eyebrow{font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--green);font-weight:800}.topline h2{font-size:28px;line-height:1.15;letter-spacing:-.8px;margin:5px 0}.sub{color:var(--muted);margin:0;font-size:13px}.controls{display:flex;gap:8px;flex-wrap:wrap}.select,button{border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink);padding:10px 12px;font:inherit;font-size:13px}.select{min-width:145px}button{cursor:pointer;font-weight:700}.primary{background:var(--green);color:white;border-color:var(--green)}button:disabled{opacity:.55;cursor:wait}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}.stat,.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px}.stat{padding:16px}.label{font-size:12px;color:var(--muted)}.value{font-size:25px;font-weight:800;letter-spacing:-.8px;margin:7px 0 2px;overflow-wrap:anywhere}.foot{font-size:11px;color:var(--muted)}.layout{display:grid;grid-template-columns:1fr 1fr;gap:15px}.panel{padding:18px;min-width:0}.panel h3{font-size:15px;margin:0 0 3px}.panel-head{display:flex;justify-content:space-between;align-items:start;gap:12px;margin-bottom:14px}.panel-head p{font-size:12px;color:var(--muted);margin:0}.tag{font-size:10px;border-radius:6px;padding:5px 7px;background:var(--soft);color:var(--green);font-weight:800;white-space:nowrap}.candidate{padding:12px 0;border-bottom:1px solid var(--line)}.candidate:last-child{border:0}.candtop{display:flex;justify-content:space-between;gap:12px;font-size:13px}.candname{font-weight:750}.candparty{font-size:11px;color:var(--muted);margin-top:2px}.bar{height:8px;background:#edf2ef;border-radius:99px;overflow:hidden;margin-top:8px}.fill{height:100%;background:var(--green);border-radius:99px}.candmeta{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:11px;margin-top:5px}.tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;font-size:12px}th{text-align:left;color:var(--muted);font-weight:650}th,td{padding:10px 6px;border-bottom:1px solid var(--line)}tr:last-child td{border-bottom:0}.right{text-align:right}.empty{padding:28px 12px;text-align:center;color:var(--muted);font-size:13px}.footnote{color:var(--muted);font-size:11px;margin-top:14px}.footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:18px;color:var(--muted);font-size:11px}.footer a{color:var(--green)}.hide{display:none!important}
+:root{color-scheme:light;--bg:#f4f7f6;--panel:#fff;--ink:#17251f;--muted:#687970;--line:#dfe8e3;--green:#087f5b;--green2:#18a77a;--soft:#e8f5ef;--warn:#fff4d6;--warnink:#725416;--red:#9d3028}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}header{background:#10251f;color:#fff;padding:20px max(18px,calc((100vw - 1180px)/2));display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{display:flex;gap:12px;align-items:center}.logo{width:42px;height:42px;border-radius:12px;background:var(--green2);display:grid;place-items:center;font-size:22px;font-weight:850}.brand h1{font-size:20px;margin:0}.brand p{margin:1px 0 0;color:#b9d5ca;font-size:12px}.status{font-size:12px;border:1px solid #557368;border-radius:999px;padding:6px 10px;color:#d7eee4;white-space:nowrap}.wrap{max-width:1180px;margin:auto;padding:24px 18px 42px}.notice{display:flex;gap:10px;background:var(--warn);color:var(--warnink);border:1px solid #eadba9;padding:13px 15px;border-radius:12px;font-size:13px;margin-bottom:22px}.notice strong{display:block;margin-bottom:2px}.notice.error{background:#fff0ef;color:var(--red);border-color:#efc6c2}.source{color:var(--green);font-weight:700}.topline{display:flex;justify-content:space-between;align-items:end;gap:18px;margin-bottom:18px}.eyebrow{font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--green);font-weight:800}.topline h2{font-size:28px;line-height:1.15;letter-spacing:-.8px;margin:5px 0}.sub{color:var(--muted);margin:0;font-size:13px}.controls{display:flex;gap:8px;flex-wrap:wrap}.select,button,input.select{border:1px solid var(--line);border-radius:99px;background:#fff;color:var(--ink);padding:10px 12px;font:inherit;font-size:13px}.select{min-width:145px}button{cursor:pointer;font-weight:700}.primary{background:var(--green);color:white;border-color:var(--green)}button:disabled{opacity:.55;cursor:wait}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}.stat,.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px}.stat{padding:16px}.label{font-size:12px;color:var(--muted)}.value{font-size:25px;font-weight:800;letter-spacing:-.8px;margin:7px 0 2px;overflow-wrap:anywhere}.foot{font-size:11px;color:var(--muted)}.layout{display:grid;grid-template-columns:1fr 1fr;gap:15px}.panel{padding:18px;min-width:0}.panel h3{font-size:15px;margin:0 0 3px}.panel-head{display:flex;justify-content:space-between;align-items:start;gap:12px;margin-bottom:14px}.panel-head p{font-size:12px;color:var(--muted);margin:0}.tag{font-size:10px;border-radius:6px;padding:5px 7px;background:var(--soft);color:var(--green);font-weight:800;white-space:nowrap}.candidate{padding:12px 0;border-bottom:1px solid var(--line)}.candidate:last-child{border:0}.candtop{display:flex;justify-content:space-between;gap:12px;font-size:13px}.candname{font-weight:750}.candparty{font-size:11px;color:var(--muted);margin-top:2px}.bar{height:8px;background:#edf2ef;border-radius:99px;overflow:hidden;margin-top:8px}.fill{height:100%;background:var(--green);border-radius:99px}.candmeta{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:11px;margin-top:5px}.tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;font-size:12px}th{text-align:left;color:var(--muted);font-weight:650}th,td{padding:10px 6px;border-bottom:1px solid var(--line)}tr:last-child td{border-bottom:0}.right{text-align:right}.empty{padding:28px 12px;text-align:center;color:var(--muted);font-size:13px}.footnote{color:var(--muted);font-size:11px;margin-top:14px}.footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:18px;color:var(--muted);font-size:11px}.footer a{color:var(--green)}.hide{display:none!important}
 .candphoto-placeholder{width:36px;height:36px;border-radius:50%;background-color:#e8f5ef;color:var(--green);display:inline-grid;place-items:center;font-weight:bold;font-size:14px;border:1px solid var(--line);flex-shrink:0}
+.uf-btn{padding:5px 9px;font-size:11px;cursor:pointer;border-radius:6px;border:1px solid var(--line);background:#fff;transition:all 0.2s}
+.uf-btn:hover{background:var(--soft);border-color:var(--green);color:var(--green)}
 @media(max-width:850px){.topline{align-items:start;flex-direction:column}.controls{width:100%}.select{flex:1;min-width:130px}.layout{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}header{padding:17px 18px}}@media(max-width:480px){.wrap{padding:17px 12px 30px}.topline h2{font-size:24px}.stat{padding:12px}.value{font-size:21px}.panel{padding:14px}.status{display:none}}
 </style>
 </head>
@@ -16,8 +18,35 @@
 <main class="wrap">
 <div class="notice" id="notice" role="status"><span>ⓘ</span><div><strong>Fonte exclusiva: Tribunal Superior Eleitoral (TSE).</strong>Os números só serão exibidos quando forem obtidos e validados a partir dos arquivos oficiais do TSE. Se a fonte não responder ou ainda não publicar o recorte, o painel informará isso — sem estimativas nem dados de demonstração. <a class="source" href="https://resultados.tse.jus.br/oficial/app/index.html#/eleicao/6257/uf/br/cargo/1/vis/nominal/resultados" target="_blank" rel="noopener">Abrir portal oficial ↗</a></div></div>
 <div class="topline"><div><div class="eyebrow">Eleições gerais · 2026</div><h2>Resultados oficiais, por localidade.</h2><p class="sub">Dados publicados pelo TSE; atualização conforme a disponibilidade da fonte.</p></div><div class="controls"><select class="select" id="round" aria-label="Turno"><option value="1">1º turno</option><option value="2">2º turno</option></select><select class="select" id="office" aria-label="Cargo"><option value="presidente">Presidente</option><option value="governador">Governador</option><option value="senador">Senador</option><option value="deputado-federal">Deputado federal</option><option value="deputado-estadual">Deputado estadual</option><option value="deputado-distrital">Deputado distrital</option></select><select class="select" id="state" aria-label="Estado"><option value="br">Brasil inteiro</option></select><select class="select" id="city" aria-label="Município" disabled><option value="">Todos os municípios / abrangência estadual</option></select><button class="primary" id="refresh">Atualizar</button></div></div>
+
+<!-- Atalho Rápido para Seleção de Estados -->
+<section class="panel" style="margin-bottom: 16px;">
+  <div class="panel-head" style="margin-bottom: 8px;">
+    <div>
+      <h3>Seleção Rápida por Estado</h3>
+      <p>Clique em uma sigla para filtrar o estado desejado</p>
+    </div>
+  </div>
+  <div id="mapWrap" style="display: flex; flex-wrap: wrap; gap: 6px; padding: 4px 0;"></div>
+</section>
+
 <div class="stats"><div class="stat"><div class="label">Votos registrados</div><div class="value" id="votes">—</div><div class="foot" id="votesFoot">Aguardando dados oficiais</div></div><div class="stat"><div class="label">Seções totalizadas</div><div class="value" id="sections">—</div><div class="foot" id="sectionsFoot">Sem informação disponível</div></div><div class="stat"><div class="label">Eleitorado</div><div class="value" id="electorate">—</div><div class="foot">Conforme arquivo oficial</div></div><div class="stat"><div class="label">Totalização</div><div class="value" id="progress">—</div><div class="foot" id="updated">Última geração: indisponível</div></div></div>
-<div class="layout"><section class="panel"><div class="panel-head"><div><h3>Votação por candidato</h3><p id="resultScope">Brasil · Presidente</p></div><span class="tag">DADOS DO TSE</span></div><div id="candidateBars" class="empty">Consultando o TSE…</div><p class="footnote" id="sourceMeta">Aguardando resposta da fonte oficial.</p></section>
+<div class="layout">
+<section class="panel">
+  <div class="panel-head">
+    <div>
+      <h3>Votação por candidato</h3>
+      <p id="resultScope">Brasil · Presidente</p>
+    </div>
+    <span class="tag">DADOS DO TSE</span>
+  </div>
+  <div style="margin-bottom: 12px;">
+    <input type="text" id="searchCandidate" class="select" placeholder="🔍 Pesquisar candidato..." style="width: 100%;">
+  </div>
+  <div id="candidateBars" class="empty">Consultando o TSE…</div>
+  <p class="footnote" id="sourceMeta">Aguardando resposta da fonte oficial.</p>
+</section>
+
 <section class="panel"><div class="panel-head"><div><h3>Resumo da votação</h3><p>Valores recebidos no arquivo EA20</p></div></div><div class="tablewrap"><table><thead><tr><th>Candidato</th><th class="right">Votos</th><th class="right">%</th></tr></thead><tbody id="rows"><tr><td colspan="3" class="empty">Aguardando dados oficiais.</td></tr></tbody></table></div><div style="border-top:1px solid var(--line);padding-top:13px;margin-top:14px"><h3>Indicadores da abrangência</h3><div class="footnote" id="otherStats">Os totais serão exibidos somente quando informados pelo TSE.</div></div></section></div>
 <div class="footer"><span>Projeto independente; não representa nem substitui o TSE.</span><span><a href="https://www.tse.jus.br/eleicoes/informacoes-tecnicas-sobre-a-divulgacao-de-resultados" target="_blank" rel="noopener">Documentação técnica oficial ↗</a> · <a href="https://resultados.tse.jus.br/oficial/app/index.html" target="_blank" rel="noopener">Portal de resultados ↗</a></span></div>
 </main>
@@ -25,12 +54,152 @@
 const UFS=[['ac','Acre'],['al','Alagoas'],['ap','Amapá'],['am','Amazonas'],['ba','Bahia'],['ce','Ceará'],['df','Distrito Federal'],['es','Espírito Santo'],['go','Goiás'],['ma','Maranhão'],['mt','Mato Grosso'],['ms','Mato Grosso do Sul'],['mg','Minas Gerais'],['pa','Pará'],['pb','Paraíba'],['pr','Paraná'],['pe','Pernambuco'],['pi','Piauí'],['rj','Rio de Janeiro'],['rn','Rio Grande do Norte'],['rs','Rio Grande do Sul'],['ro','Rondônia'],['rr','Roraima'],['sc','Santa Catarina'],['sp','São Paulo'],['se','Sergipe'],['to','Tocantins']];
 const $=id=>document.getElementById(id); const fmt=n=>n==null?'—':Number(n).toLocaleString('pt-BR'); const pct=n=>n==null?'—':Number(n).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+'%';
 let busy=false;
-function setNotice(message,isError=false){$('notice').classList.toggle('error',isError);$('notice').innerHTML=`<span>${isError?'⚠':'ⓘ'}</span><div><strong>${isError?'Dados oficiais indisponíveis':'Fonte exclusiva: Tribunal Superior Eleitoral (TSE).'}</strong>${escapeHtml(message)} <a class="source" href="https://resultados.tse.jus.br/oficial/app/index.html" target="_blank" rel="noopener">Abrir portal oficial ↗</a></div>`;}
+
+function setNotice(message,isError=false){
+  const notice=$('notice');
+  if(!notice) return;
+  notice.classList.toggle('error',isError);
+  notice.innerHTML=`<span>${isError?'⚠':'ⓘ'}</span><div><strong>${isError?'Dados oficiais indisponíveis':'Fonte exclusiva: Tribunal Superior Eleitoral (TSE).'}</strong>${escapeHtml(message)} <a class="source" href="https://resultados.tse.jus.br/oficial/app/index.html" target="_blank" rel="noopener">Abrir portal oficial ↗</a></div>`;
+}
+
 function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function addStates(){const s=$('state');for(const [code,name] of UFS){const o=document.createElement('option');o.value=code;o.textContent=name;s.appendChild(o)}}
-async function loadCities(){const state=$('state').value,office=$('office').value,city=$('city');city.innerHTML='<option value="">Todos os municípios / abrangência estadual</option>';city.disabled=true;if(state==='br')return;const second=$('round').value==='2';const election=office==='presidente'?(second?'6258':'6257'):office==='governador'?(second?'6260':'6259'):'6259';try{const r=await fetch(`/api/municipalities?state=${encodeURIComponent(state)}&election=${election}`);const d=await r.json();if(!r.ok||!d.ok)throw new Error(d?.error?.message||'Não foi possível obter a lista oficial de municípios.');for(const m of d.municipalities||[]){const o=document.createElement('option');o.value=m.code;o.textContent=m.name;city.appendChild(o)}city.disabled=!(d.municipalities||[]).length;}catch(e){city.disabled=true;setNotice(e.message,true)}}
-function resetDisplay(){['votes','sections','electorate','progress'].forEach(id=>$(id).textContent='—');$('votesFoot').textContent='Aguardando dados oficiais';$('sectionsFoot').textContent='Sem informação disponível';$('updated').textContent='Última geração: indisponível';$('candidateBars').className='empty';$('candidateBars').textContent='Consultando o TSE…';$('rows').innerHTML='<tr><td colspan="3" class="empty">Aguardando dados oficiais.</td></tr>';$('otherStats').textContent='Os totais serão exibidos somente quando informados pelo TSE.';$('sourceMeta').textContent='Aguardando resposta da fonte oficial.';}
-async function loadResults(){if(busy)return;busy=true;$('refresh').disabled=true;$('status').textContent='Consultando TSE…';resetDisplay();const office=$('office').value,state=$('state').value,city=$('city').value,round=$('round').value;const stateName=state==='br'?'Brasil':(UFS.find(x=>x[0]===state)?.[1]\vert{}\vert{}state.toUpperCase());$('resultScope').textContent=`${city?$('city').selectedOptions[0].textContent+' / ':''}${stateName} · ${$('office').selectedOptions[0].textContent} · ${round}º turno`;try{const qs=new URLSearchParams({office,state,round});if(city)qs.set('city',city);const r=await fetch(`/api/results?${qs}`,{headers:{accept:'application/json'}});const d=await r.json();if(!r.ok||!d.ok)throw new Error(d?.error?.message||'A consulta oficial não está disponível.');if(d.phase!=='oficial')throw new Error('A resposta não foi identificada como oficial pelo TSE; os dados foram bloqueados.');const c=d.candidates||[];if(!c.length)throw new Error(d.message||'O TSE ainda não disponibilizou resultados para este cargo e recorte.');$('votes').textContent=fmt(d.votes?.total);$('votesFoot').textContent='Votos totais informados no arquivo';$('sections').textContent=d.sections?.percent==null?'—':pct(d.sections.percent);$('sectionsFoot').textContent=`${fmt(d.sections?.counted)} de ${fmt(d.sections?.total)} seções`; $('electorate').textContent=fmt(d.voters?.total);$('progress').textContent=d.totalizationStatus==='f'?'Finalizada':d.totalizationStatus==='p'?'Em andamento':d.totalizationStatus==='n'?'Não iniciada':'—';$('updated').textContent=`Geração TSE: ${d.generatedDate||'—'} ${d.generatedTime||''}`;$('candidateBars').className='';$('candidateBars').innerHTML=c.map((x,i)=>`<div class="candidate"><div class="candtop"><div style="display:flex;align-items:center;gap:10px;"><div class="candphoto-placeholder">${escapeHtml(x.name ? x.name[0] : '?')}</div><div><div class="candname">${escapeHtml(x.name)}</div><div class="candparty">${escapeHtml([x.number?`Nº ${x.number}`:'',x.party,x.partyName].filter(Boolean).join(' · '))}</div></div></div><strong>${pct(x.percent)}</strong></div><div class="bar"><div class="fill" style="width:${Math.max(0,Math.min(100,Number(x.percent)||0))}%"></div></div><div class="candmeta"><span>${fmt(x.votes)} votos</span><span>${x.elected?'Eleito conforme arquivo TSE':''}</span></div></div>`).join('');$('rows').innerHTML=c.map(x=>`<tr><td>${escapeHtml(x.name)}<div class="candparty">${escapeHtml(x.party||'')}</div></td><td class="right">${fmt(x.votes)}</td><td class="right">${pct(x.percent)}</td></tr>`).join('');$('otherStats').textContent=`Votos válidos: ${fmt(d.votes?.valid)} · Nominais: ${fmt(d.votes?.nominal)} · Brancos: ${fmt(d.votes?.blank)} · Nulos: ${fmt(d.votes?.null)} · Comparecimento: ${fmt(d.voters?.turnout)} · Abstenções: ${fmt(d.voters?.abstentions)}`;$('sourceMeta').innerHTML=`Fonte: <a class="source" href="${escapeHtml(d.sourceUrl)}" target="_blank" rel="noopener">arquivo oficial EA20 do TSE ↗</a> · Totalização: ${escapeHtml(d.totalizationDate||'—')} ${escapeHtml(d.totalizationTime||'')}`;$('status').textContent='Fonte oficial conectada';setNotice('Os dados exibidos foram recebidos do arquivo oficial do TSE. A atualização depende da publicação e disponibilidade dos arquivos do Tribunal.');}catch(e){$('status').textContent='Fonte indisponível';setNotice(e.message||'Não foi possível consultar o TSE. Nenhum dado de demonstração será mostrado.',true);$('candidateBars').className='empty';$('candidateBars').textContent=e.message||'Dados oficiais indisponíveis.';$('rows').innerHTML=`<tr><td colspan="3" class="empty">${escapeHtml(e.message||'Dados oficiais indisponíveis.')}</td></tr>`;}finally{busy=false;$('refresh').disabled=false;}}$('state').addEventListener('change',async()=>{await loadCities();await loadResults()});$('office').addEventListener('change',async()=>{const office=$('office').value;if(office!=='presidente'&&$('state').value==='br')$('state').value='pr';if(!['presidente','governador'].includes(office))$('round').value='1';$('round').disabled=!['presidente','governador'].includes(office);await loadCities();await loadResults()});$('round').addEventListener('change',async()=>{if($('round').value==='2'&&!['presidente','governador'].includes($('office').value))$('round').value='1';await loadCities();await loadResults()});$('city').addEventListener('change',loadResults);$('refresh').addEventListener('click',loadResults);addStates();loadResults();
+
+function addStates(){
+  const s=$('state');
+  if(!s || s.options.length > 1) return;
+  for(const [code,name] of UFS){
+    const o=document.createElement('option');
+    o.value=code;
+    o.textContent=name;
+    s.appendChild(o);
+  }
+}
+
+function renderMapButtons(){
+  const wrap=$('mapWrap');
+  if(!wrap)return;
+  wrap.innerHTML=`<button class="uf-btn" onclick="$('state').value='br';$('state').dispatchEvent(new Event('change'));"><b>BR</b></button>`+UFS.map(([code])=>`<button class="uf-btn" onclick="$('state').value='${code}';$('state').dispatchEvent(new Event('change'));">${code.toUpperCase()}</button>`).join('');
+}
+
+async function loadCities(){
+  const state=$('state').value,office=$('office').value,city=$('city');
+  if(!city) return;
+  city.innerHTML='<option value="">Todos os municípios / abrangência estadual</option>';
+  city.disabled=true;
+  if(state==='br')return;
+  const second=$('round').value==='2';
+  const election=office==='presidente'?(second?'6258':'6257'):office==='governador'?(second?'6260':'6259'):'6259';
+  try{
+    const r=await fetch(`/api/municipalities?state=${encodeURIComponent(state)}&election=${election}`);
+    const d=await r.json();
+    if(!r.ok||!d.ok)return;
+    for(const m of d.municipalities||[]){
+      const o=document.createElement('option');
+      o.value=m.code;
+      o.textContent=m.name;
+      city.appendChild(o);
+    }
+    city.disabled=!(d.municipalities||[]).length;
+  }catch(e){}
+}
+
+function resetDisplay(){
+  ['votes','sections','electorate','progress'].forEach(id=>{ if($(id))$(id).textContent='—'; });
+  if($('votesFoot'))$('votesFoot').textContent='Aguardando dados oficiais';
+  if($('sectionsFoot'))$('sectionsFoot').textContent='Sem informação disponível';
+  if($('updated'))$('updated').textContent='Última geração: indisponível';
+  if($('candidateBars')){ $('candidateBars').className='empty';$('candidateBars').textContent='Consultando o TSE…'; }
+  if($('rows'))$('rows').innerHTML='<tr><td colspan="3" class="empty">Aguardando dados oficiais.</td></tr>';
+  if($('otherStats'))$('otherStats').textContent='Os totais serão exibidos somente quando informados pelo TSE.';
+  if($('sourceMeta'))$('sourceMeta').textContent='Aguardando resposta da fonte oficial.';
+}
+
+async function loadResults(){
+  if(busy)return;
+  busy=true;
+  if($('refresh'))$('refresh').disabled=true;
+  if($('status'))$('status').textContent='Consultando TSE…';
+  resetDisplay();
+
+  const office=$('office').value,state=$('state').value,city=$('city').value,round=$('round').value;
+  const stateName=state==='br'?'Brasil':(UFS.find(x=>x[0]===state)?.[1]||state.toUpperCase());
+  if($('resultScope'))$('resultScope').textContent=`${city && $('city').selectedOptions[0]?$('city').selectedOptions[0].textContent+' / ':''}${stateName} · ${$('office').selectedOptions[0].textContent} · ${round}º turno`;
+
+  try{
+    const qs=new URLSearchParams({office,state,round});
+    if(city)qs.set('city',city);
+    const r=await fetch(`/api/results?${qs}`,{headers:{accept:'application/json'}});
+    const d=await r.json();
+
+    if(!r.ok || !d.ok) throw new Error(d?.error?.message || 'A consulta oficial não está disponível.');
+
+    const c=d.candidates||[];
+
+    if($('votes'))$('votes').textContent=fmt(d.votes?.total);
+    if($('votesFoot'))$('votesFoot').textContent='Votos totais informados no arquivo';
+    if($('sections'))$('sections').textContent=d.sections?.percent==null?'—':pct(d.sections.percent);
+    if($('sectionsFoot'))$('sectionsFoot').textContent=`${fmt(d.sections?.counted)} de ${fmt(d.sections?.total)} seções`; 
+    if($('electorate'))$('electorate').textContent=fmt(d.voters?.total);
+    if($('progress'))$('progress').textContent=d.totalizationStatus==='f'?'Finalizada':d.totalizationStatus==='p'?'Em andamento':d.totalizationStatus==='n'?'Não iniciada':'—';
+    if($('updated'))$('updated').textContent=`Geração TSE: ${d.generatedDate||'—'} ${d.generatedTime||''}`;
+
+    if(!c.length) {
+      if($('candidateBars')) { $('candidateBars').className='empty';$('candidateBars').textContent=d.message || 'Aguardando publicação dos resultados pelo TSE.'; }
+      if($('rows'))$('rows').innerHTML=`<tr><td colspan="3" class="empty">${escapeHtml(d.message || 'Aguardando publicação dos resultados pelo TSE.')}</td></tr>`;
+    } else {
+      if($('candidateBars')) {
+        $('candidateBars').className='';$('candidateBars').innerHTML=c.map((x,i)=>`<div class="candidate"><div class="candtop"><div style="display:flex;align-items:center;gap:10px;"><div class="candphoto-placeholder">${escapeHtml(x.name ? x.name[0] : '?')}</div><div><div class="candname">${escapeHtml(x.name)}</div><div class="candparty">${escapeHtml([x.number?`Nº ${x.number}`:'',x.party,x.partyName].filter(Boolean).join(' · '))}</div></div></div><strong>${pct(x.percent)}</strong></div><div class="bar"><div class="fill" style="width:${Math.max(0,Math.min(100,Number(x.percent)||0))}%"></div></div><div class="candmeta"><span>${fmt(x.votes)} votos</span><span>${x.elected?'Eleito conforme arquivo TSE':''}</span></div></div>`).join('');
+      }
+      if($('rows'))$('rows').innerHTML=c.map(x=>`<tr><td>${escapeHtml(x.name)}<div class="candparty">${escapeHtml(x.party||'')}</div></td><td class="right">${fmt(x.votes)}</td><td class="right">${pct(x.percent)}</td></tr>`).join('');
+    }
+
+    if($('otherStats'))$('otherStats').textContent=`Votos válidos: ${fmt(d.votes?.valid)} · Nominais: ${fmt(d.votes?.nominal)} · Brancos: ${fmt(d.votes?.blank)} · Nulos: ${fmt(d.votes?.null)} · Comparecimento: ${fmt(d.voters?.turnout)} · Abstenções: ${fmt(d.voters?.abstentions)}`;
+    if($('sourceMeta'))$('sourceMeta').innerHTML=`Fonte: <a class="source" href="${escapeHtml(d.sourceUrl||'#')}" target="_blank" rel="noopener">arquivo oficial EA20 do TSE ↗</a> · Totalização: ${escapeHtml(d.totalizationDate||'—')} ${escapeHtml(d.totalizationTime||'')}`;
+    if($('status'))$('status').textContent='Fonte oficial conectada';
+    setNotice('Conexão estabelecida com a fonte oficial do TSE. A atualização ocorre automaticamente conforme a disponibilização dos arquivos.');
+  }catch(e){
+    if($('status'))$('status').textContent='Fonte indisponível';
+    setNotice(e.message||'Não foi possível consultar o TSE.',true);
+    if($('candidateBars')) { $('candidateBars').className='empty';$('candidateBars').textContent=e.message||'Dados oficiais indisponíveis.'; }
+    if($('rows'))$('rows').innerHTML=`<tr><td colspan="3" class="empty">${escapeHtml(e.message||'Dados oficiais indisponíveis.')}</td></tr>`;
+  }finally{
+    busy=false;
+    if($('refresh'))$('refresh').disabled=false;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  addStates();
+  renderMapButtons();
+
+  const search = $('searchCandidate');
+  if(search){
+    search.addEventListener('input', (e) => {
+      const term = e.target.value.toLowerCase().trim();
+      const items = document.querySelectorAll('#candidateBars .candidate');
+      items.forEach(item => {
+        const text = item.textContent.toLowerCase();
+        item.style.display = text.includes(term) ? '' : 'none';
+      });
+    });
+  }
+
+  $('state').addEventListener('change',async()=>{await loadCities();await loadResults()});$('office').addEventListener('change',async()=>{
+    const office=$('office').value;
+    if(office!=='presidente'&&$('state').value==='br')$('state').value='sp';
+    if(!['presidente','governador'].includes(office))$('round').value='1';$('round').disabled=!['presidente','governador'].includes(office);
+    await loadCities();
+    await loadResults();
+  });
+  $('round').addEventListener('change',async()=>{
+    if($('round').value==='2'&&!['presidente','governador'].includes($('office').value))$('round').value='1';
+    await loadCities();
+    await loadResults();
+  });
+  $('city').addEventListener('change',loadResults);$('refresh').addEventListener('click',loadResults);
+
+  loadResults();
+});
 </script>
 </body>
 </html>
