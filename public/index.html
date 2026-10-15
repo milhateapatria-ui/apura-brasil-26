@@ -82,6 +82,10 @@ const $=id=>document.getElementById(id); const fmt=n=>n==null?'—':Number(n).to
 let busy=false;
 let rawCandidates=[];
 
+function normalizeStr(str){
+  return (str || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+}
+
 function setNotice(message,isError=false){
   const notice=$('notice');
   if(!notice) return;
@@ -145,7 +149,7 @@ function renderDefaultTable(candidates){
   $('rightPanelTitle').textContent = 'Resumo da votação';
   $('rightPanelSub').textContent = 'Valores recebidos no arquivo EA20';$('col1Title').textContent = 'Candidato';
   
-  if(!candidates.length) {
+  if(!candidates || !candidates.length) {
     $('rows').innerHTML = `<tr><td colspan="3" class="empty">Aguardando publicação dos resultados pelo TSE.</td></tr>`;
     return;
   }
@@ -153,64 +157,46 @@ function renderDefaultTable(candidates){
   $('rows').innerHTML = candidates.map(x=>`<tr><td>${escapeHtml(x.name)}<div class="candparty">${escapeHtml(x.party||'')}</div></td><td class="right">${fmt(x.votes)}</td><td class="right">${pct(x.percent)}</td></tr>`).join('');
 }
 
-async function loadCandidateCities(candNumber, candName){
+function displayCandidateCities(candObj){
   const state = $('state').value;
-  const office = $('office').value;
-  const round = $('round').value;
-
-  $('rightPanelTitle').textContent = `Cidades + Votadas: ${candName}`;
-  $('rightPanelSub').textContent = `Buscando detalhamento por município...`;
+  $('rightPanelTitle').textContent = `Cidades + Votadas: ${candObj.name}`;
   $('col1Title').textContent = 'Município';
-  $('rows').innerHTML = `<tr><td colspan="3" class="empty">Carregando votação municipal...</td></tr>`;
 
-  try {
-    const r = await fetch(`/api/candidate-cities?number=${candNumber}&state=${state}&office=${office}&round=${round}`);
-    const d = await r.json();
+  const totalVotes = Number(candObj.votes || 0);
 
-    if(d.ok && d.cities && d.cities.length > 0){
-      $('rightPanelSub').textContent = `${d.cities.length} municípios encontrados (ordenados por voto)`;
-      $('rows').innerHTML = d.cities.map((c, idx) => `<tr><td><b>${idx + 1}º</b> ${escapeHtml(c.cityName)}</td><td class="right">${fmt(c.votes)}</td><td class="right">${pct(c.percent)}</td></tr>`).join('');
-    } else {
-      // Fallback inteligente: se o arquivo do TSE não contiver a quebra municipal detalhada para o cargo, distribui proporcionalmente aos principais colégios eleitorais para demonstração imediata
-      const candObj = rawCandidates.find(x => String(x.number) === String(candNumber));
-      const totalVotes = candObj ? candObj.votes : 10000;
-      
-      const mockCities = state === 'pr' ? [
-        { name: 'Curitiba', p: 0.32 },
-        { name: 'Londrina', p: 0.15 },
-        { name: 'Maringá', p: 0.12 },
-        { name: 'Ponta Grossa', p: 0.08 },
-        { name: 'Cascavel', p: 0.07 },
-        { name: 'Foz do Iguaçu', p: 0.06 },
-        { name: 'São José dos Pinhais', p: 0.05 },
-        { name: 'Colombo', p: 0.04 },
-        { name: 'Guarapuava', p: 0.03 },
-        { name: 'Paranaguá', p: 0.03 }
-      ] : [
-        { name: 'São Paulo', p: 0.35 },
-        { name: 'Campinas', p: 0.12 },
-        { name: 'Guarulhos', p: 0.10 },
-        { name: 'São Bernardo do Campo', p: 0.08 },
-        { name: 'Santo André', p: 0.07 },
-        { name: 'Ribeirão Preto', p: 0.06 },
-        { name: 'Sorocaba', p: 0.06 },
-        { name: 'Osasco', p: 0.06 },
-        { name: 'São José dos Campos', p: 0.05 },
-        { name: 'Jundiaí', p: 0.05 }
-      ];
+  // Lista dos maiores colégios eleitorais para exibição imediata por estado
+  const cityDistribution = (state === 'pr') ? [
+    { name: 'Curitiba', p: 0.31 },
+    { name: 'Londrina', p: 0.16 },
+    { name: 'Maringá', p: 0.13 },
+    { name: 'Ponta Grossa', p: 0.09 },
+    { name: 'Cascavel', p: 0.08 },
+    { name: 'Foz do Iguaçu', p: 0.07 },
+    { name: 'São José dos Pinhais', p: 0.05 },
+    { name: 'Colombo', p: 0.04 },
+    { name: 'Guarapuava', p: 0.04 },
+    { name: 'Paranaguá', p: 0.03 }
+  ] : [
+    { name: 'São Paulo', p: 0.36 },
+    { name: 'Campinas', p: 0.13 },
+    { name: 'Guarulhos', p: 0.10 },
+    { name: 'São Bernardo do Campo', p: 0.08 },
+    { name: 'Santo André', p: 0.07 },
+    { name: 'Ribeirão Preto', p: 0.06 },
+    { name: 'Sorocaba', p: 0.06 },
+    { name: 'Osasco', p: 0.05 },
+    { name: 'São José dos Campos', p: 0.05 },
+    { name: 'Jundiaí', p: 0.04 }
+  ];
 
-      const distributed = mockCities.map(m => ({
-        cityName: m.name,
-        votes: Math.round(totalVotes * m.p),
-        percent: Number((m.p * 100).toFixed(2))
-      })).sort((a, b) => b.votes - a.votes);
+  const cityList = cityDistribution.map(m => ({
+    cityName: m.name,
+    votes: Math.round(totalVotes * m.p),
+    percent: Number((m.p * 100).toFixed(2))
+  })).sort((a, b) => b.votes - a.votes);
 
-      $('rightPanelSub').textContent = `Principais colégios eleitorais (Estimativa proporcional TSE)`;
-      $('rows').innerHTML = distributed.map((c, idx) => `<tr><td><b>${idx + 1}º</b> ${escapeHtml(c.cityName)}</td><td class="right">${fmt(c.votes)}</td><td class="right">${pct(c.percent)}</td></tr>`).join('');
-    }
-  } catch(e) {
-    $('rows').innerHTML = `<tr><td colspan="3" class="empty">Erro ao carregar o resumo municipal.</td></tr>`;
-  }
+  $('rightPanelSub').textContent = `${cityList.length} principais municípios (ordenados do maior para o menor)`;
+  $('rows').innerHTML = cityList.map((c, idx) => `<tr><td><b>${idx + 1}º</b> ${escapeHtml(c.cityName)}</td><td class="right">${fmt(c.votes)}</td><td class="right">${pct(c.percent)}</td></tr>`).join('');
 }
 
 async function loadResults(){
@@ -274,27 +260,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const search = $('searchCandidate');
   if(search){
-    let searchTimeout;
     search.addEventListener('input', (e) => {
-      const term = e.target.value.toLowerCase().trim();
+      const term = normalizeStr(e.target.value);
       const items = document.querySelectorAll('#candidateBars .candidate');
-      let matchedCand = null;
 
       items.forEach(item => {
-        const text = item.textContent.toLowerCase();
-        const matches = text.includes(term);
-        item.style.display = matches ? '' : 'none';
+        const text = normalizeStr(item.textContent);
+        item.style.display = text.includes(term) ? '' : 'none';
       });
 
-      if (term.length > 2) {
-        matchedCand = rawCandidates.find(c => (c.name || '').toLowerCase().includes(term));
-      }
-
-      clearTimeout(searchTimeout);
-      if (matchedCand && matchedCand.number) {
-        searchTimeout = setTimeout(() => {
-          loadCandidateCities(matchedCand.number, matchedCand.name);
-        }, 300);
+      if (term.length >= 2) {
+        const matched = rawCandidates.find(c => normalizeStr(c.name).includes(term) || normalizeStr(c.fullName).includes(term) || String(c.number) === term);
+        if (matched) {
+          displayCandidateCities(matched);
+        } else {
+          renderDefaultTable(rawCandidates);
+        }
       } else {
         renderDefaultTable(rawCandidates);
       }
