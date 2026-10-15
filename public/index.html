@@ -8,28 +8,29 @@
 :root{color-scheme:light;--bg:#f4f7f6;--panel:#fff;--ink:#17251f;--muted:#687970;--line:#dfe8e3;--green:#087f5b;--green2:#18a77a;--soft:#e8f5ef;--warn:#fff4d6;--warnink:#725416;--red:#9d3028}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}header{background:#10251f;color:#fff;padding:20px max(18px,calc((100vw - 1180px)/2));display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{display:flex;gap:12px;align-items:center}.logo{width:42px;height:42px;border-radius:12px;background:var(--green2);display:grid;place-items:center;font-size:22px;font-weight:850}.brand h1{font-size:20px;margin:0}.brand p{margin:1px 0 0;color:#b9d5ca;font-size:12px}.status{font-size:12px;border:1px solid #557368;border-radius:999px;padding:6px 10px;color:#d7eee4;white-space:nowrap}.wrap{max-width:1180px;margin:auto;padding:24px 18px 42px}.notice{display:flex;gap:10px;background:var(--warn);color:var(--warnink);border:1px solid #eadba9;padding:13px 15px;border-radius:12px;font-size:13px;margin-bottom:22px}.notice strong{display:block;margin-bottom:2px}.notice.error{background:#fff0ef;color:var(--red);border-color:#efc6c2}.source{color:var(--green);font-weight:700}.topline{display:flex;justify-content:space-between;align-items:end;gap:18px;margin-bottom:18px}.eyebrow{font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--green);font-weight:800}.topline h2{font-size:28px;line-height:1.15;letter-spacing:-.8px;margin:5px 0}.sub{color:var(--muted);margin:0;font-size:13px}.controls{display:flex;gap:8px;flex-wrap:wrap}.select,button{border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink);padding:10px 12px;font:inherit;font-size:13px}.select{min-width:145px}button{cursor:pointer;font-weight:700}.primary{background:var(--green);color:white;border-color:var(--green)}button:disabled{opacity:.55;cursor:wait}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}.stat,.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px}.stat{padding:16px}.label{font-size:12px;color:var(--muted)}.value{font-size:25px;font-weight:800;letter-spacing:-.8px;margin:7px 0 2px;overflow-wrap:anywhere}.foot{font-size:11px;color:var(--muted)}.layout{display:grid;grid-template-columns:1fr 1fr;gap:15px}.panel{padding:18px;min-width:0}.panel h3{font-size:15px;margin:0 0 3px}.panel-head{display:flex;justify-content:space-between;align-items:start;gap:12px;margin-bottom:14px}.panel-head p{font-size:12px;color:var(--muted);margin:0}.tag{font-size:10px;border-radius:6px;padding:5px 7px;background:var(--soft);color:var(--green);font-weight:800;white-space:nowrap}.candidate{padding:12px 0;border-bottom:1px solid var(--line)}.candidate:last-child{border:0}.candtop{display:flex;justify-content:space-between;gap:12px;font-size:13px}.candname{font-weight:750}.candparty{font-size:11px;color:var(--muted);margin-top:2px}.bar{height:8px;background:#edf2ef;border-radius:99px;overflow:hidden;margin-top:8px}.fill{height:100%;background:var(--green);border-radius:99px}.candmeta{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:11px;margin-top:5px}.tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;font-size:12px}th{text-align:left;color:var(--muted);font-weight:650}th,td{padding:10px 6px;border-bottom:1px solid var(--line)}tr:last-child td{border-bottom:0}.right{text-align:right}.empty{padding:28px 12px;text-align:center;color:var(--muted);font-size:13px}.footnote{color:var(--muted);font-size:11px;margin-top:14px}.footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:18px;color:var(--muted);font-size:11px}.footer a{color:var(--green)}.hide{display:none!important}@media(max-width:850px){.topline{align-items:start;flex-direction:column}.controls{width:100%}.select{flex:1;min-width:130px}.layout{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}header{padding:17px 18px}}@media(max-width:480px){.wrap{padding:17px 12px 30px}.topline h2{font-size:24px}.stat{padding:12px}.value{font-size:21px}.panel{padding:14px}.status{display:none}}
 </style>
   .candphoto {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid var(--line, #ccc);
-  background-color: #f0f0f0;
-  flex-shrink: 0;
-}
-.candphoto-placeholder {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background-color: #e0e0e0;
-  color: #555;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 18px;
-  border: 2px solid var(--line, #ccc);
-  flex-shrink: 0;
-}
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--line, #ccc);
+    background-color: #f0f0f0;
+    flex-shrink: 0;
+  }
+  .candphoto-placeholder {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    color: #555;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 18px;
+    border: 2px solid var(--line, #ccc);
+    flex-shrink: 0;
+  }
+</style>
 </head>
 <body>
 <header><div class="brand"><div class="logo">A</div><div><h1>Apura Brasil <span style="color:#54d6a0">26</span></h1><p>Painel independente de resultados eleitorais</p></div></div><div class="status" id="status">Conectando ao TSE…</div></header>
