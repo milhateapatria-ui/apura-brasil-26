@@ -9,38 +9,43 @@ module.exports = async function handler(req, res) {
   }
 
   const office = String(req.query.office || 'deputado-federal').toLowerCase();
-  const state = String(req.query.state || 'sp').toLowerCase();
+  const state = String(req.query.state || 'pr').toLowerCase();
   const candNumber = String(req.query.number || '').trim();
   const round = String(req.query.round || '1');
 
-  if (!UFS.has(state)) {
-    return res.status(400).json({ ok: false, error: 'Estado inválido.' });
+  if (!candNumber) {
+    return res.status(200).json({ ok: true, cities: [] });
   }
 
+  const uf = UFS.has(state) ? state : 'pr';
+
   try {
-    // 1. Busca lista de municípios do estado
-    const munUrl = `https://resultados.tse.jus.br/oficial/ele2026/6259/config/${state}/${state}-m.json`;
+    // Tenta obter a lista oficial de municípios do estado no TSE
+    let munUrl = `https://resultados.tse.jus.br/oficial/ele2026/6259/config/${uf}/${uf}-m.json`;
     let munData = await cachedFetch(munUrl);
-    
+
     if (!munData || !Array.isArray(munData.muni)) {
-      // Fallback para estrutura de teste/2024 caso 2026 ainda não tenha a lista
-      const fallbackMunUrl = `https://resultados.tse.jus.br/oficial/ele2024/306/config/${state}/${state}-m.json`;
-      munData = await cachedFetch(fallbackMunUrl);
+      munUrl = `https://resultados.tse.jus.br/oficial/ele2024/306/config/${uf}/${uf}-m.json`;
+      munData = await cachedFetch(munUrl);
     }
 
-    const cities = (munData?.muni || []).filter(m => m.cd);
-    
-    // 2. Consulta paralela limitada às top cidades ou amostra de municípios
-    const topCitiesResults = [];
+    const rawCities = (munData?.muni || []).filter(m => m.cd);
 
-    // Processa uma amostra relevante para retorno rápido
-    const citiesToFetch = cities.slice(0, 30);
+    if (!rawCities.length) {
+      return res.status(200).json({ ok: true, cities: [] });
+    }
+
+    // Processa os municípios formatando o código para 5 dígitos
+    const topCitiesResults = [];
+    const citiesToFetch = rawCities.slice(0, 40); // Limita aos principais municípios para resposta rápida
 
     await Promise.all(
       citiesToFetch.map(async (c) => {
         try {
-          const url = urlForResults({ office, state, city: c.cd, round });
+          const formattedCityCode = String(c.cd).padStart(5, '0');
+          const url = urlForResults({ office, state: uf, city: formattedCityCode, round });
           const root = await cachedFetch(url);
+
           if (!root || !Array.isArray(root.carg)) return;
 
           for (const cargo of root.carg) {
@@ -53,7 +58,7 @@ module.exports = async function handler(req, res) {
                     if (votes > 0) {
                       topCitiesResults.push({
                         cityName: c.nm,
-                        cityCode: c.cd,
+                        cityCode: formattedCityCode,
                         votes,
                         percent
                       });
@@ -67,13 +72,13 @@ module.exports = async function handler(req, res) {
       })
     );
 
-    // Ordena da cidade mais votada para a menos votada
+    // Ordena da cidade com MAIS votos para a com MENOS votos
     topCitiesResults.sort((a, b) => b.votes - a.votes);
 
     return res.status(200).json({
       ok: true,
       candidateNumber: candNumber,
-      state: state.toUpperCase(),
+      state: uf.toUpperCase(),
       cities: topCitiesResults
     });
   } catch (err) {
