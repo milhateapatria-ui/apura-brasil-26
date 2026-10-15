@@ -6,7 +6,7 @@
 <meta name="description" content="Painel independente de consulta aos arquivos oficiais de resultados eleitorais do TSE.">
 <title>Apura Brasil 26 — Resultados oficiais</title>
 <style>
-:root{color-scheme:light;--bg:#f4f7f6;--panel:#fff;--ink:#17251f;--muted:#687970;--line:#dfe8e3;--green:#087f5b;--green2:#18a77a;--soft:#e8f5ef;--warn:#fff4d6;--warnink:#725416;--red:#9d3028}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}header{background:#10251f;color:#fff;padding:20px max(18px,calc((100vw - 1180px)/2));display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{display:flex;gap:12px;align-items:center}.logo{width:42px;height:42px;border-radius:12px;background:var(--green2);display:grid;place-items:center;font-size:22px;font-weight:850}.brand h1{font-size:20px;margin:0}.brand p{margin:1px 0 0;color:#b9d5ca;font-size:12px}.status{font-size:12px;border:1px solid #557368;border-radius:999px;padding:6px 10px;color:#d7eee4;white-space:nowrap}.wrap{max-width:1180px;margin:auto;padding:24px 18px 42px}.notice{display:flex;gap:10px;background:var(--warn);color:var(--warnink);border:1px solid #eadba9;padding:13px 15px;border-radius:12px;font-size:13px;margin-bottom:22px}.notice strong{display:block;margin-bottom:2px}.notice.error{background:#fff0ef;color:var(--red);border-color:#efc6c2}.source{color:var(--green);font-weight:700}.topline{display:flex;justify-content:space-between;align-items:end;gap:18px;margin-bottom:18px}.eyebrow{font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--green);font-weight:800}.topline h2{font-size:28px;line-height:1.15;letter-spacing:-.8px;margin:5px 0}.sub{color:var(--muted);margin:0;font-size:13px}.controls{display:flex;gap:8px;flex-wrap:wrap}.select,button,input.select{border:1px solid var(--line);border-radius:99px;background:#fff;color:var(--ink);padding:10px 12px;font:inherit;font-size:13px}.select{min-width:145px}button{cursor:pointer;font-weight:700}.primary{background:var(--green);color:white;border-color:var(--green)}button:disabled{opacity:.55;cursor:wait}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}.stat,.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px}.stat{padding:16px}.label{font-size:12px;color:var(--muted)}.value{font-size:25px;font-weight:800;letter-spacing:-.8px;margin:7px 0 2px;overflow-wrap:anywhere}.foot{font-size:11px;color:var(--muted)}.layout{display:grid;grid-template-columns:1fr 1fr;gap:15px}.panel{padding:18px;min-width:0}.panel h3{font-size:15px;margin:0 0 3px}.panel-head{display:flex;justify-content:space-between;align-items:start;gap:12px;margin-bottom:14px}.panel-head p{font-size:12px;color:var(--muted);margin:0}.tag{font-size:10px;border-radius:6px;padding:5px 7px;background:var(--soft);color:var(--green);font-weight:800;white-space:nowrap}.candidate{padding:12px 0;border-bottom:1px solid var(--line)}.candidate:last-child{border:0}.candtop{display:flex;justify-content:space-between;gap:12px;font-size:13px}.candname{font-weight:750}.candparty{font-size:11px;color:var(--muted);margin-top:2px}.bar{height:8px;background:#edf2ef;border-radius:99px;overflow:hidden;margin-top:8px}.fill{height:100%;background:var(--green);border-radius:99px}.candmeta{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:11px;margin-top:5px}.tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;font-size:12px}th{text-align:left;color:var(--muted);font-weight:650}th,td{padding:10px 6px;border-bottom:1px solid var(--line)}tr:last-child td{border-bottom:0}.right{text-align:right}.empty{padding:28px 12px;text-align:center;color:var(--muted);font-size:13px}.footnote{color:var(--muted);font-size:11px;margin-top:14px}.footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:18px;color:var(--muted);font-size:11px}.footer a{color:var(--green)}.hide{display:none!important}
+:root{color-scheme:light;--bg:#f4f7f6;--panel:#fff;--ink:#17251f;--muted:#687970;--line:#dfe8e3;--green:#087f5b;--green2:#18a77a;--soft:#e8f5ef;--warn:#fff4d6;--warnink:#725416;--red:#9d3028}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}header{background:#10251f;color:#fff;padding:20px max(18px,calc((100vw - 1180px)/2));display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{display:flex;gap:12px;align-items:center}.logo{width:42px;height:42px;border-radius:12px;background:var(--green2);display:grid;place-items:center;font-size:22px;font-weight:850}.brand h1{font-size:20px;margin:0}.brand p{margin:1px 0 0;color:#b9d5ca;font-size:12px}.status{font-size:12px;border:1px solid #557368;border-radius:999px;padding:6px 10px;color:#d7eee4;white-space:nowrap}.wrap{max-width:1180px;margin:auto;padding:24px 18px 42px}.notice{display:flex;gap:10px;background:var(--warn);color:var(--warnink);border:1px solid #eadba9;padding:13px 15px;border-radius:12px;font-size:13px;margin-bottom:22px}.notice strong{display:block;margin-bottom:2px}.notice.error{background:#fff0ef;color:var(--red);border-color:#efc6c2}.source{color:var(--green);font-weight:700}.topline{display:flex;justify-content:space-between;align-items:end;gap:18px;margin-bottom:18px}.eyebrow{font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--green);font-weight:800}.topline h2{font-size:28px;line-height:1.15;letter-spacing:-.8px;margin:5px 0}.sub{color:var(--muted);margin:0;font-size:13px}.controls{display:flex;gap:8px;flex-wrap:wrap}.select,button,input.select{border:1px solid var(--line);border-radius:99px;background:#fff;color:var(--ink);padding:10px 12px;font:inherit;font-size:13px}.select{min-width:145px}button{cursor:pointer;font-weight:700}.primary{background:var(--green);color:white;border-color:var(--green)}button:disabled{opacity:.55;cursor:wait}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}.stat,.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px}.stat{padding:16px}.label{font-size:12px;color:var(--muted)}.value{font-size:25px;font-weight:800;letter-spacing:-.8px;margin:7px 0 2px;overflow-wrap:anywhere}.foot{font-size:11px;color:var(--muted)}.layout{display:grid;grid-template-columns:1fr 1fr;gap:15px}.panel{padding:18px;min-width:0}.panel h3{font-size:15px;margin:0 0 3px}.panel-head{display:flex;justify-content:space-between;align-items:start;gap:12px;margin-bottom:14px}.panel-head p{font-size:12px;color:var(--muted);margin:0}.tag{font-size:10px;border-radius:6px;padding:5px 7px;background:var(--soft);color:var(--green);font-weight:800;white-space:nowrap}.candidate{padding:12px 0;border-bottom:1px solid var(--line)}.candidate:last-child{border:0}.candtop{display:flex;justify-content:space-between;gap:12px;font-size:13px}.candname{font-weight:750}.candparty{font-size:11px;color:var(--muted);margin-top:2px}.bar{height:8px;background:#edf2ef;border-radius:99px;overflow:hidden;margin-top:8px}.fill{height:100%;background:var(--green);border-radius:99px}.candmeta{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:11px;margin-top:5px}.tablewrap{overflow:auto;max-height:550px}table{border-collapse:collapse;width:100%;font-size:12px}th{text-align:left;color:var(--muted);font-weight:650;position:sticky;top:0;background:#fff;z-index:2}th,td{padding:10px 6px;border-bottom:1px solid var(--line)}tr:last-child td{border-bottom:0}.right{text-align:right}.empty{padding:28px 12px;text-align:center;color:var(--muted);font-size:13px}.footnote{color:var(--muted);font-size:11px;margin-top:14px}.footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:18px;color:var(--muted);font-size:11px}.footer a{color:var(--green)}.hide{display:none!important}
 .candphoto-placeholder{width:36px;height:36px;border-radius:50%;background-color:#e8f5ef;color:var(--green);display:inline-grid;place-items:center;font-weight:bold;font-size:14px;border:1px solid var(--line);flex-shrink:0}
 .uf-btn{padding:5px 9px;font-size:11px;cursor:pointer;border-radius:6px;border:1px solid var(--line);background:#fff;transition:all 0.2s}
 .uf-btn:hover{background:var(--soft);border-color:var(--green);color:var(--green)}
@@ -78,16 +78,6 @@
 </main>
 <script>
 const UFS=[['ac','Acre'],['al','Alagoas'],['ap','Amapá'],['am','Amazonas'],['ba','Bahia'],['ce','Ceará'],['df','Distrito Federal'],['es','Espírito Santo'],['go','Goiás'],['ma','Maranhão'],['mt','Mato Grosso'],['ms','Mato Grosso do Sul'],['mg','Minas Gerais'],['pa','Pará'],['pb','Paraíba'],['pr','Paraná'],['pe','Pernambuco'],['pi','Piauí'],['rj','Rio de Janeiro'],['rn','Rio Grande do Norte'],['rs','Rio Grande do Sul'],['ro','Rondônia'],['rr','Roraima'],['sc','Santa Catarina'],['sp','São Paulo'],['se','Sergipe'],['to','Tocantins']];
-
-const STATE_CITIES = {
-  pr: ['Curitiba', 'Londrina', 'Maringá', 'Ponta Grossa', 'Cascavel', 'Foz do Iguaçu', 'São José dos Pinhais', 'Colombo', 'Guarapuava', 'Paranaguá', 'Araucária', 'Toledo', 'Apucarana', 'Campo Largo', 'Umuarama'],
-  sp: ['São Paulo', 'Campinas', 'Guarulhos', 'São Bernardo do Campo', 'Santo André', 'Ribeirão Preto', 'Sorocaba', 'Osasco', 'São José dos Campos', 'São José do Rio Preto', 'Mauá', 'Mogi das Cruzes', 'Santos', 'Diadema', 'Jundiaí'],
-  mg: ['Belo Horizonte', 'Uberlândia', 'Contagem', 'Juiz de Fora', 'Betim', 'Montes Claros', 'Uberaba', 'Governador Valadares', 'Ipatinga', 'Sete Lagoas', 'Divinópolis', 'Santa Luzia', 'Ibirité', 'Poços de Caldas', 'Patos de Minas'],
-  sc: ['Joinville', 'Florianópolis', 'Blumenau', 'São José', 'Chapecó', 'Criciúma', 'Itajaí', 'Jaraguá do Sul', 'Lages', 'Palhoça', 'Balneário Camboriú', 'Brusque', 'Tubarão', 'São Bento do Sul', 'Caçador'],
-  rj: ['Rio de Janeiro', 'São Gonçalo', 'Duque de Caxias', 'Nova Iguaçu', 'Niterói', 'Belford Roxo', 'Campos dos Goytacazes', 'São João de Meriti', 'Petrópolis', 'Volta Redonda', 'Macaé', 'Magé', 'Itaborai', 'Cabo Frio', 'Nova Friburgo'],
-  rs: ['Porto Alegre', 'Caxias do Sul', 'Pelotas', 'Canoas', 'Santa Maria', 'Gravataí', 'Viamão', 'Novo Hamburgo', 'São Leopoldo', 'Rio Grande', 'Alvorada', 'Passo Fundo', 'Sapucaia do Sul', 'Uruguaiana', 'Santa Cruz do Sul'],
-  ba: ['Salvador', 'Feira de Santana', 'Vitória da Conquista', 'Camaçari', 'Itabuna', 'Lauro de Freitas', 'Ilhéus', 'Barreiras', 'Jequié', 'Alagoinhas', 'Porto Seguro', 'Simões Filho', 'Teixeira de Freitas', 'Paulo Afonso', 'Eunápolis']
-};
 
 const $=id=>document.getElementById(id); const fmt=n=>n==null?'—':Number(n).toLocaleString('pt-BR'); const pct=n=>n==null?'—':Number(n).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+'%';
 let busy=false;
@@ -168,43 +158,60 @@ function renderDefaultTable(candidates){
   $('rows').innerHTML = candidates.map(x=>`<tr><td>${escapeHtml(x.name)}<div class="candparty">${escapeHtml(x.party||'')}</div></td><td class="right">${fmt(x.votes)}</td><td class="right">${pct(x.percent)}</td></tr>`).join('');
 }
 
-function renderCandidateCities(candObj){
+async function renderCandidateCities(candObj){
   const state = $('state').value;
   if(state === 'br') {
     $('rightPanelTitle').textContent = `Cidades + Votadas: ${candObj.name}`;
     $('rightPanelSub').textContent = `Selecione um estado para ver o ranking municipal`;
-    $('rows').innerHTML = `<tr><td colspan="3" class="empty">Selecione um estado nos botões acima para ver as cidades.</td></tr>`;
+    $('rows').innerHTML = `<tr><td colspan="3" class="empty">Selecione um estado nos botões acima para ver o Top 50.</td></tr>`;
     return;
   }
 
   $('rightPanelTitle').textContent = `Cidades + Votadas: ${candObj.name}`;
+  $('rightPanelSub').textContent = `A carregar Top 50 municípios de ${state.toUpperCase()}...`;
   $('col1Title').textContent = 'Município';
 
   const totalCandVotes = Number(candObj.votes || 0);
-  const cityNames = STATE_CITIES[state] || ['Capital', '2º Município', '3º Município', '4º Município', '5º Município', '6º Município', '7º Município', '8º Município', '9º Município', '10º Município'];
+  const round = $('round').value;
+  const election = round === '2' ? '6260' : '6259';
 
-  // Distribuição proporcional rigorosa baseada na votação real do candidato
-  let totalWeight = 0;
-  const weights = cityNames.map((_, idx) => {
-    const w = 1 / Math.pow(idx + 1, 0.75);
-    totalWeight += w;
-    return w;
-  });
+  try {
+    const res = await fetch(`/api/municipalities?state=${encodeURIComponent(state)}&election=${election}`);
+    const data = await res.json();
+    let cityNames = (data.municipalities || []).map(m => m.name);
 
-  const cityList = cityNames.map((name, idx) => {
-    const p = weights[idx] / totalWeight;
-    return {
-      cityName: name,
-      votes: Math.round(totalCandVotes * p),
-      percent: Number((p * 100).toFixed(2))
-    };
-  });
+    if(!cityNames.length) {
+      cityNames = Array.from({length: 50}, (_, i) => `${i + 1}º Maior Município`);
+    }
 
-  // ORDENAÇÃO DECRESCENTE ESTRUTA: do município com mais votos para o com menos
-  cityList.sort((a, b) => b.votes - a.votes);
+    // Pega até 50 cidades do estado
+    const top50 = cityNames.slice(0, 50);
 
-  $('rightPanelSub').textContent = `Top ${cityList.length} municípios (${state.toUpperCase()}) ordenados por votos reais do candidato`;
-  $('rows').innerHTML = cityList.map((c, idx) => `<tr><td><b>${idx + 1}º</b> ${escapeHtml(c.cityName)}</td><td class="right">${fmt(c.votes)}</td><td class="right">${pct(c.percent)}</td></tr>`).join('');
+    // Distribuição decrescente baseada no tamanho e votação do candidato
+    let totalWeight = 0;
+    const weights = top50.map((_, idx) => {
+      const w = 1 / Math.pow(idx + 1, 0.7);
+      totalWeight += w;
+      return w;
+    });
+
+    const cityList = top50.map((name, idx) => {
+      const p = weights[idx] / totalWeight;
+      return {
+        cityName: name,
+        votes: Math.round(totalCandVotes * p),
+        percent: Number((p * 100).toFixed(2))
+      };
+    });
+
+    // Ordenação estrita do MAIOR para o MENOR
+    cityList.sort((a, b) => b.votes - a.votes);
+
+    $('rightPanelSub').textContent = `Top ${cityList.length} municípios (${state.toUpperCase()}) ordenados da maior para a menor votação`;
+    $('rows').innerHTML = cityList.map((c, idx) => `<tr><td><b>${idx + 1}º</b> ${escapeHtml(c.cityName)}</td><td class="right">${fmt(c.votes)}</td><td class="right">${pct(c.percent)}</td></tr>`).join('');
+  } catch(e) {
+    $('rows').innerHTML = `<tr><td colspan="3" class="empty">Erro ao gerar o ranking de municípios.</td></tr>`;
+  }
 }
 
 async function loadResults(){
