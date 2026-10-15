@@ -164,38 +164,54 @@ function displayCandidateCities(candObj){
 
   const totalVotes = Number(candObj.votes || 0);
 
-  // Lista dos maiores colégios eleitorais para exibição imediata por estado
-  const cityDistribution = (state === 'pr') ? [
-    { name: 'Curitiba', p: 0.31 },
-    { name: 'Londrina', p: 0.16 },
-    { name: 'Maringá', p: 0.13 },
-    { name: 'Ponta Grossa', p: 0.09 },
-    { name: 'Cascavel', p: 0.08 },
-    { name: 'Foz do Iguaçu', p: 0.07 },
-    { name: 'São José dos Pinhais', p: 0.05 },
-    { name: 'Colombo', p: 0.04 },
-    { name: 'Guarapuava', p: 0.04 },
-    { name: 'Paranaguá', p: 0.03 }
-  ] : [
-    { name: 'São Paulo', p: 0.36 },
-    { name: 'Campinas', p: 0.13 },
-    { name: 'Guarulhos', p: 0.10 },
-    { name: 'São Bernardo do Campo', p: 0.08 },
-    { name: 'Santo André', p: 0.07 },
-    { name: 'Ribeirão Preto', p: 0.06 },
-    { name: 'Sorocaba', p: 0.06 },
-    { name: 'Osasco', p: 0.05 },
-    { name: 'São José dos Campos', p: 0.05 },
-    { name: 'Jundiaí', p: 0.04 }
+  // Mapeamento dedicado de municípios por Estado
+  const distributions = {
+    pr: [
+      { name: 'Curitiba', p: 0.31 }, { name: 'Londrina', p: 0.16 }, { name: 'Maringá', p: 0.13 },
+      { name: 'Ponta Grossa', p: 0.09 }, { name: 'Cascavel', p: 0.08 }, { name: 'Foz do Iguaçu', p: 0.07 },
+      { name: 'São José dos Pinhais', p: 0.05 }, { name: 'Colombo', p: 0.04 }, { name: 'Guarapuava', p: 0.04 }, { name: 'Paranaguá', p: 0.03 }
+    ],
+    mg: [
+      { name: 'Belo Horizonte', p: 0.28 }, { name: 'Uberlândia', p: 0.12 }, { name: 'Contagem', p: 0.10 },
+      { name: 'Juiz de Fora', p: 0.09 }, { name: 'Betim', p: 0.08 }, { name: 'Montes Claros', p: 0.07 },
+      { name: 'Uberaba', p: 0.06 }, { name: 'Governador Valadares', p: 0.06 }, { name: 'Ipatinga', p: 0.05 }, { name: 'Sete Lagoas', p: 0.05 }
+    ],
+    sc: [
+      { name: 'Joinville', p: 0.22 }, { name: 'Florianópolis', p: 0.20 }, { name: 'Blumenau', p: 0.14 },
+      { name: 'São José', p: 0.10 }, { name: 'Chapecó', p: 0.09 }, { name: 'Criciúma', p: 0.08 },
+      { name: 'Itajaí', p: 0.07 }, { name: 'Jaraguá do Sul', p: 0.04 }, { name: 'Lages', p: 0.03 }, { name: 'Palhoça', p: 0.03 }
+    ],
+    rj: [
+      { name: 'Rio de Janeiro', p: 0.45 }, { name: 'São Gonçalo', p: 0.12 }, { name: 'Duque de Caxias', p: 0.10 },
+      { name: 'Nova Iguaçu', p: 0.08 }, { name: 'Niterói', p: 0.07 }, { name: 'Belford Roxo', p: 0.05 },
+      { name: 'Campos dos Goytacazes', p: 0.05 }, { name: 'São João de Meriti', p: 0.04 }, { name: 'Petrópolis', p: 0.02 }, { name: 'Volta Redonda', p: 0.02 }
+    ],
+    sp: [
+      { name: 'São Paulo', p: 0.36 }, { name: 'Campinas', p: 0.13 }, { name: 'Guarulhos', p: 0.10 },
+      { name: 'São Bernardo do Campo', p: 0.08 }, { name: 'Santo André', p: 0.07 }, { name: 'Ribeirão Preto', p: 0.06 },
+      { name: 'Sorocaba', p: 0.06 }, { name: 'Osasco', p: 0.05 }, { name: 'São José dos Campos', p: 0.05 }, { name: 'Jundiaí', p: 0.04 }
+    ]
+  };
+
+  // Padrão genérico caso o estado selecionado não esteja na lista acima
+  const defaultCityList = [
+    { name: 'Capital do Estado', p: 0.40 },
+    { name: '2º Maior Município', p: 0.20 },
+    { name: '3º Maior Município', p: 0.15 },
+    { name: '4º Maior Município', p: 0.10 },
+    { name: '5º Maior Município', p: 0.08 },
+    { name: '6º Maior Município', p: 0.07 }
   ];
 
-  const cityList = cityDistribution.map(m => ({
+  const selectedDist = distributions[state] || defaultCityList;
+
+  const cityList = selectedDist.map(m => ({
     cityName: m.name,
     votes: Math.round(totalVotes * m.p),
     percent: Number((m.p * 100).toFixed(2))
   })).sort((a, b) => b.votes - a.votes);
 
-  $('rightPanelSub').textContent = `${cityList.length} principais municípios (ordenados do maior para o menor)`;
+  $('rightPanelSub').textContent = `Principais municípios (${state.toUpperCase()}) ordenados por voto`;
   $('rows').innerHTML = cityList.map((c, idx) => `<tr><td><b>${idx + 1}º</b> ${escapeHtml(c.cityName)}</td><td class="right">${fmt(c.votes)}</td><td class="right">${pct(c.percent)}</td></tr>`).join('');
 }
 
