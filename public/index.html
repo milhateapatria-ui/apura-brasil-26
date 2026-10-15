@@ -157,55 +157,22 @@ function renderDefaultTable(candidates){
   $('rows').innerHTML = candidates.map(x=>`<tr><td>${escapeHtml(x.name)}<div class="candparty">${escapeHtml(x.party||'')}</div></td><td class="right">${fmt(x.votes)}</td><td class="right">${pct(x.percent)}</td></tr>`).join('');
 }
 
-async function displayCandidateCities(candObj){
-  const state = $('state').value;
-  if(state === 'br') {
-    $('rightPanelTitle').textContent = `Cidades + Votadas: ${candObj.name}`;
-    $('rightPanelSub').textContent = `Selecione um estado específico para ver o ranking municipal`;
-    $('rows').innerHTML = `<tr><td colspan="3" class="empty">Por favor, selecione um estado nos botões acima para ver o detalhamento por município.</td></tr>`;
-    return;
-  }
+function showCandidateDetail(candObj){
+  const state = $('state').value.toUpperCase();
+  const selectedCityName = $('city').selectedOptions[0]?.value ? $('city').selectedOptions[0].textContent : null;
 
-  $('rightPanelTitle').textContent = `Cidades + Votadas: ${candObj.name}`;
-  $('rightPanelSub').textContent = `Carregando ranking dos municípios de ${state.toUpperCase()}...`;
-  $('col1Title').textContent = 'Município';
-
-  const totalVotes = Number(candObj.votes || 0);
-  const round = $('round').value;
-  const election = round === '2' ? '6260' : '6259';
-
-  try {
-    const res = await fetch(`/api/municipalities?state=${encodeURIComponent(state)}&election=${election}`);
-    const data = await res.json();
-    let munList = (data.municipalities || []).map(m => m.name);
-
-    if(!munList.length) {
-      munList = ['Capital', '2º Maior Município', '3º Maior Município', '4º Maior Município', '5º Maior Município'];
-    }
-
-    const topCount = Math.min(50, munList.length);
-    const sliceMun = munList.slice(0, topCount);
-    
-    let totalWeight = 0;
-    const weights = sliceMun.map((_, idx) => {
-      const w = 1 / Math.pow(idx + 1, 0.7);
-      totalWeight += w;
-      return w;
-    });
-
-    const cityList = sliceMun.map((name, idx) => {
-      const p = weights[idx] / totalWeight;
-      return {
-        cityName: name,
-        votes: Math.round(totalVotes * p),
-        percent: Number((p * 100).toFixed(2))
-      };
-    }).sort((a, b) => b.votes - a.votes);
-
-    $('rightPanelSub').textContent = `Top ${cityList.length} municípios (${state.toUpperCase()}) ordenados da maior para a menor votação`;
-    $('rows').innerHTML = cityList.map((c, idx) => `<tr><td><b>${idx + 1}º</b> ${escapeHtml(c.cityName)}</td><td class="right">${fmt(c.votes)}</td><td class="right">${pct(c.percent)}</td></tr>`).join('');
-  } catch(e) {
-    $('rows').innerHTML = `<tr><td colspan="3" class="empty">Não foi possível carregar o ranking de municípios para este estado.</td></tr>`;
+  if (selectedCityName) {
+    $('rightPanelTitle').textContent = `Votação em ${selectedCityName}`;
+    $('rightPanelSub').textContent = `Dados oficiais do TSE para ${candObj.name}`;
+    $('col1Title').textContent = 'Candidato / Localidade';$('rows').innerHTML = `<tr><td><b>${escapeHtml(candObj.name)}</b><div class="candparty">${selectedCityName} (${state})</div></td><td class="right">${fmt(candObj.votes)}</td><td class="right">${pct(candObj.percent)}</td></tr>`;
+  } else {
+    $('rightPanelTitle').textContent = `Votação Estadual: ${candObj.name}`;
+    $('rightPanelSub').textContent = `Total consolidado no arquivo EA20 (${state})`;
+    $('col1Title').textContent = 'Candidato / Abrangência';
+    $('rows').innerHTML = `
+      <tr><td><b>${escapeHtml(candObj.name)}</b><div class="candparty">${candObj.party || ''} · Nº ${candObj.number || ''}</div></td><td class="right">${fmt(candObj.votes)}</td><td class="right">${pct(candObj.percent)}</td></tr>
+      <tr><td colspan="3" class="empty" style="padding: 12px; font-size: 11px;">Para ver a votação exata em uma cidade específica, selecione o município no menu de filtro no topo.</td></tr>
+    `;
   }
 }
 
@@ -282,7 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (term.length >= 2) {
         const matched = rawCandidates.find(c => normalizeStr(c.name).includes(term) || normalizeStr(c.fullName).includes(term) || String(c.number) === term);
         if (matched) {
-          displayCandidateCities(matched);
+          showCandidateDetail(matched);
         } else {
           renderDefaultTable(rawCandidates);
         }
