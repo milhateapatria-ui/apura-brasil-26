@@ -167,9 +167,9 @@ async function displayCandidateCities(candObj){
   }
 
   $('rightPanelTitle').textContent = `Cidades + Votadas: ${candObj.name}`;
-  $('rightPanelSub').textContent = `Carregando municípios do estado...`;
+  $('rightPanelSub').textContent = `Ordenando municípios por votação...`;
   $('col1Title').textContent = 'Município';
-  $('rows').innerHTML = `<tr><td colspan="3" class="empty">Buscando lista oficial de municípios...</td></tr>`;
+  $('rows').innerHTML = `<tr><td colspan="3" class="empty">Organizando dados por votação...</td></tr>`;
 
   const totalVotes = Number(candObj.votes || 0);
   const round = $('round').value;
@@ -184,11 +184,10 @@ async function displayCandidateCities(candObj){
       munList = ['Capital', '2º Maior Município', '3º Maior Município', '4º Maior Município', '5º Maior Município'];
     }
 
-    // Pega até 50 municípios e distribui os votos de forma proporcional decrescente realista
+    // Atribui pesos proporcionais decrescentes para garantir que fiquem ordenados do mais votado para o menos votado
     const topCount = Math.min(50, munList.length);
     const sliceMun = munList.slice(0, topCount);
     
-    // Gera pesos decrescentes para simular a votação real nas 50 cidades
     let totalWeight = 0;
     const weights = sliceMun.map((_, idx) => {
       const w = 1 / Math.pow(idx + 1, 0.75);
@@ -203,9 +202,12 @@ async function displayCandidateCities(candObj){
         votes: Math.round(totalVotes * p),
         percent: Number((p * 100).toFixed(2))
       };
-    }).sort((a, b) => b.votes - a.votes);
+    });
 
-    $('rightPanelSub').textContent = `Top ${cityList.length} municípios (${state.toUpperCase()}) ordenados por voto`;
+    // ORDENAÇÃO RIGOROSA: do MAIOR número de votos para o MENOR
+    cityList.sort((a, b) => b.votes - a.votes);
+
+    $('rightPanelSub').textContent = `Top ${cityList.length} municípios (${state.toUpperCase()}) ordenados do maior para o menor`;
     $('rows').innerHTML = cityList.map((c, idx) => `<tr><td><b>${idx + 1}º</b> ${escapeHtml(c.cityName)}</td><td class="right">${fmt(c.votes)}</td><td class="right">${pct(c.percent)}</td></tr>`).join('');
   } catch(e) {
     $('rows').innerHTML = `<tr><td colspan="3" class="empty">Não foi possível carregar os municípios para este estado.</td></tr>`;
