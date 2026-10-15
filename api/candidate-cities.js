@@ -1,6 +1,5 @@
-const { cachedFetch, UFS } = require('./_tse');
+const { UFS } = require('./_tse');
 
-// Mapeamento dos principais colégios eleitorais por estado para consulta rápida e garantida
 const TOP_CITIES_BY_UF = {
   pr: [
     { code: '07579', name: 'Curitiba' },
@@ -10,7 +9,7 @@ const TOP_CITIES_BY_UF = {
     { code: '07473', name: 'Cascavel' },
     { code: '07511', name: 'Foz do Iguaçu' },
     { code: '07838', name: 'São José dos Pinhais' },
-    { code: '07490', name: 'ColOMBO' },
+    { code: '07490', name: 'Colombo' },
     { code: '07546', name: 'Guarapuava' },
     { code: '07730', name: 'Paranaguá' },
     { code: '07430', name: 'Araucária' },
@@ -29,7 +28,7 @@ const TOP_CITIES_BY_UF = {
     { code: '71358', name: 'Sorocaba' },
     { code: '68616', name: 'Osasco' },
     { code: '70475', name: 'São José dos Campos' },
-    { code: '69833', name: 'S. José do Rio Preto' }
+    { code: '69833', name: 'São José do Rio Preto' }
   ]
 };
 
@@ -42,8 +41,22 @@ const CARGO_CODES = {
   'deputado-distrital': '0008'
 };
 
+async function fetchTse(url) {
+  try {
+    const res = await fetch(url, {
+      headers: {
+        'accept': 'application/json, text/plain, */*',
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+      },
+      signal: AbortSignal.timeout(4000)
+    });
+    if (res.ok) return await res.json();
+  } catch (e) {}
+  return null;
+}
+
 module.exports = async function handler(req, res) {
-  res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=60');
+  res.setHeader('Cache-Control', 's-maxage=30, stale-while-revalidate=30');
   res.setHeader('Access-Control-Allow-Origin', '*');
 
   if (req.method !== 'GET') {
@@ -61,44 +74,34 @@ module.exports = async function handler(req, res) {
 
   const uf = UFS.has(state) ? state : 'pr';
   const cCode = CARGO_CODES[office] || '0006';
-  const election = round === '2' ? '6260' : '6259';
 
-  // Obtém as cidades do mapa ou uma amostra caso não esteja mapeado
   let targetCities = TOP_CITIES_BY_UF[uf];
 
   if (!targetCities) {
-    try {
-      let munUrl = `https://resultados.tse.jus.br/oficial/ele2026/${election}/config/${uf}/${uf}-m.json`;
-      let munData = await cachedFetch(munUrl);
-      if (!munData || !Array.isArray(munData.muni)) {
-        munUrl = `https://resultados.tse.jus.br/oficial/ele2024/306/config/${uf}/${uf}-m.json`;
-        munData = await cachedFetch(munUrl);
-      }
-      targetCities = (munData?.muni || []).slice(0, 15).map(m => ({
-        code: String(m.cd).padStart(5, '0'),
-        name: m.nm
-      }));
-    } catch (e) {
-      targetCities = [];
-    }
+    const munUrl = `https://resultados.tse.jus.br/oficial/ele2024/306/config/${uf}/${uf}-m.json`;
+    const munData = await fetchTse(munUrl);
+    targetCities = (munData?.muni || []).slice(0, 15).map(m => ({
+      code: String(m.cd).padStart(5, '0'),
+      name: m.nm
+    }));
   }
 
   const cityResults = [];
 
-  // Executa busca paralela otimizada nas cidades selecionadas
   await Promise.all(
     targetCities.map(async (city) => {
-      try {
-        let url = `https://resultados.tse.jus.br/oficial/ele2026/${election}/dados/${uf}/${uf}${city.code}-c${cCode}-e00${election}-u.json`;
-        let root = await cachedFetch(url);
+      // Testa URLs oficiais do TSE para 2026 e fallback 2024
+      const urls = [
+        `https://resultados.tse.jus.br/oficial/ele2026/6259/dados/${uf}/${uf}${city.code}-c${cCode}-e006259-u.json`,
+        `https://resultados.tse.jus.br/oficial/ele2024/306/dados/${uf}/${uf}${city.code}-c${cCode}-e000306-u.json`,
+        `https://resultados.tse.jus.br/oficial/ele2024/306/dados/${uf}/${uf}${city.code}-c${cCode}-e000306-v.json`
+      ];
 
-        if (!root) {
-          url = `https://resultados.tse.jus.br/oficial/ele2024/306/dados/${uf}/${uf}${city.code}-c${cCode}-e00306-u.json`;
-          root = await cachedFetch(url);
-        }
+      for (const url of urls) {
+        const root = await fetchTse(url);
+        if (!root || !Array.isArray(root.carg)) continue;
 
-        if (!root || !Array.isArray(root.carg)) return;
-
+        let foundInCity = false;
         for (const cargo of root.carg) {
           for (const agg of (cargo.agr || [])) {
             for (const party of (agg.par || [])) {
@@ -112,17 +115,23 @@ module.exports = async function handler(req, res) {
                       votes,
                       percent
                     });
+                    foundInCity = true;
+                    break;
                   }
                 }
               }
+              if (foundInCity) break;
             }
+            if (foundInCity) break;
           }
+          if (foundInCity) break;
         }
-      } catch (err) {}
+        if (foundInCity) break;
+      }
     })
   );
 
-  // Ordena rigorosamente do MAIOR número de votos para o MENOR
+  // Ordena rigorosamente do município com MAIS votos para o com MENOS votos
   cityResults.sort((a, b) => b.votes - a.votes);
 
   return res.status(200).json({
