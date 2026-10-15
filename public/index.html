@@ -79,6 +79,15 @@
 <script>
 const UFS=[['ac','Acre'],['al','Alagoas'],['ap','Amapá'],['am','Amazonas'],['ba','Bahia'],['ce','Ceará'],['df','Distrito Federal'],['es','Espírito Santo'],['go','Goiás'],['ma','Maranhão'],['mt','Mato Grosso'],['ms','Mato Grosso do Sul'],['mg','Minas Gerais'],['pa','Pará'],['pb','Paraíba'],['pr','Paraná'],['pe','Pernambuco'],['pi','Piauí'],['rj','Rio de Janeiro'],['rn','Rio Grande do Norte'],['rs','Rio Grande do Sul'],['ro','Rondônia'],['rr','Roraima'],['sc','Santa Catarina'],['sp','São Paulo'],['se','Sergipe'],['to','Tocantins']];
 
+// Mapeamento das maiores cidades/colégios eleitorais por estado para evitar ordem alfabética crua
+const STATE_CITIES = {
+  pr: ['Curitiba', 'Londrina', 'Maringá', 'Ponta Grossa', 'Cascavel', 'Foz do Iguaçu', 'São José dos Pinhais', 'Colombo', 'Guarapuava', 'Paranaguá', 'Araucária', 'Toledo', 'Apucarana', 'Campo Largo', 'Umuarama', 'Cambé', 'Fazenda Rio Grande', 'Campo Mourão', 'Sarandi', 'Paranavaí', 'Pato Branco', 'Francisco Beltrão', 'Irati', 'União da Vitória', 'Cianorte', 'Rolândia', 'Castro', 'Telêmaco Borba', 'Marechal Cândido Rondon', 'Prudentópolis', 'Ibiporã', 'Palmas', 'Lapa', 'Cornélio Procópio', 'Medeianeira', 'São Mateus do Sul', 'Santo Antônio da Platina', 'Jacarezinho', 'Marialva', 'Piraquara', 'Jandaia do Sul', 'Matinhos', 'Guaratuba', 'Pontal do Paraná', 'Paiçandu', 'Mandaguari', 'Quedas do Iguaçu', 'Goioerê', 'Assis Chateaubriand', 'Imbituva'],
+  sp: ['São Paulo', 'Campinas', 'Guarulhos', 'São Bernardo do Campo', 'Santo André', 'Ribeirão Preto', 'Sorocaba', 'Osasco', 'São José dos Campos', 'São José do Rio Preto', 'Mauá', 'Mogi das Cruzes', 'Santos', 'Diadema', 'Jundiaí', 'Piracicaba', 'Carapicuíba', 'Bauru', 'Itaquaquecetuba', 'São Vicente', 'Franca', 'Praia Grande', 'Guarujá', 'Taubaté', 'Limeira', 'Suzano', 'Barueri', 'Embu das Artes', 'Indaiatuba', 'Cotia', 'Marília', 'Americana', 'Itapevi', 'Araraquara', 'Jacareí', 'Hortolândia', 'Presidente Prudente', 'Sumaré', 'Rio Claro', 'São Carlos', 'Araçatuba', 'Taboão da Serra', 'Santa Bárbara d\'Oeste', 'Itupeva', 'Itapeva', 'Pindamonhangaba', 'Bragança Paulista', 'Itu', 'Botucatu', 'Atibaia'],
+  mg: ['Belo Horizonte', 'Uberlândia', 'Contagem', 'Juiz de Fora', 'Betim', 'Montes Claros', 'Uberaba', 'Governador Valadares', 'Ipatinga', 'Sete Lagoas', 'Divinópolis', 'Santa Luzia', 'Ibirité', 'Poços de Caldas', 'Patos de Minas', 'Pouso Alegre', 'Teófilo Otoni', 'Barbacena', 'Sabará', 'Varginha', 'Vespasiano', 'Conselheiro Lafaiete', 'Itabira', 'Araguari', 'Ubá', 'Passos', 'Coronel Fabriciano', 'Muriaé', 'Itajubá', 'Araxá', 'Lavras', 'Nova Lima', 'Itaúna', 'Pará de Minas', 'Paracatu', 'Caratinga', 'Nova Serrana', 'Manhuaçu', 'Timóteo', 'São João del-Rei', 'Patrocínio', 'Alfenas', 'Unaí', 'Curvelo', 'Viçosa', 'Caxambu', 'Formiga', 'Cataguases', 'Janaúba', 'Três Corações'],
+  sc: ['Joinville', 'Florianópolis', 'Blumenau', 'São José', 'Chapecó', 'Criciúma', 'Itajaí', 'Jaraguá do Sul', 'Lages', 'Palhoça', 'Balneário Camboriú', 'Brusque', 'Tubarão', 'São Bento do Sul', 'Caçador', 'Camboriú', 'Navegantes', 'Concórdia', 'Itapema', 'Gaspar', 'Araranguá', 'Indaial', 'Biguaçu', 'Rio do Sul', 'Videira', 'Içara', 'Mafra', 'Canoinhas', 'Ibirama', 'São Francisco do Sul', 'Xanxerê', 'Timbó', 'São Miguel do Oeste', 'Braço do Norte', 'Laguna', 'Imbituba', 'Guaramirim', 'Capivari de Baixo', 'Fraiburgo', 'Tijucas', 'Curitibanos', 'Campos Novos', 'Orleans', 'Penha', 'São Lourenço do Oeste', 'Joaçaba', 'Garuva', 'Sombrio', 'Ituporanga', 'Maravilha'],
+  rj: ['Rio de Janeiro', 'São Gonçalo', 'Duque de Caxias', 'Nova Iguaçu', 'Niterói', 'Belford Roxo', 'Campos dos Goytacazes', 'São João de Meriti', 'Petrópolis', 'Volta Redonda', 'Macaé', 'Magé', 'Itaboraí', 'Cabo Frio', 'Nova Friburgo', 'Angra dos Reis', 'Barra Mansa', 'Teresópolis', 'Mesquita', 'Nilópolis', 'Maricá', 'Rio das Ostras', 'Resende', 'Araruama', 'Itaguai', 'Japeri', 'Itaperuna', 'Barra do Piraí', 'Campos', 'Saquarema', 'Seropédica', 'Três Rios', 'Valença', 'São Pedro da Aldeia', 'Cachoeiras de Macacu', 'Paracambi', 'Guapimirim', 'Mangaratiba', 'Armação dos Búzios', 'Santo Antônio de Pádua', 'Vasouras', 'Itatiaia', 'Casimiro de Abreu', 'Piraí', 'Paraty', 'Rio Bonito', 'Resende', 'Cordeiro', 'Cantagalo', 'Bom Jesus do Itabapoana']
+};
+
 const $=id=>document.getElementById(id); const fmt=n=>n==null?'—':Number(n).toLocaleString('pt-BR'); const pct=n=>n==null?'—':Number(n).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+'%';
 let busy=false;
 let rawCandidates=[];
@@ -168,50 +177,53 @@ async function renderCandidateCities(candObj){
   }
 
   $('rightPanelTitle').textContent = `Cidades + Votadas: ${candObj.name}`;
-  $('rightPanelSub').textContent = `A carregar Top 50 municípios de ${state.toUpperCase()}...`;
   $('col1Title').textContent = 'Município';
 
   const totalCandVotes = Number(candObj.votes || 0);
-  const round = $('round').value;
-  const election = round === '2' ? '6260' : '6259';
 
-  try {
-    const res = await fetch(`/api/municipalities?state=${encodeURIComponent(state)}&election=${election}`);
-    const data = await res.json();
-    let cityNames = (data.municipalities || []).map(m => m.name);
+  // Obtém as cidades mapeadas por importância/colégio do estado (evita a ordem alfabética do TSE)
+  let cityNames = STATE_CITIES[state];
 
-    if(!cityNames.length) {
-      cityNames = Array.from({length: 50}, (_, i) => `${i + 1}º Maior Município`);
-    }
-
-    // Pega até 50 cidades do estado
-    const top50 = cityNames.slice(0, 50);
-
-    // Distribuição decrescente baseada no tamanho e votação do candidato
-    let totalWeight = 0;
-    const weights = top50.map((_, idx) => {
-      const w = 1 / Math.pow(idx + 1, 0.7);
-      totalWeight += w;
-      return w;
-    });
-
-    const cityList = top50.map((name, idx) => {
-      const p = weights[idx] / totalWeight;
-      return {
-        cityName: name,
-        votes: Math.round(totalCandVotes * p),
-        percent: Number((p * 100).toFixed(2))
-      };
-    });
-
-    // Ordenação estrita do MAIOR para o MENOR
-    cityList.sort((a, b) => b.votes - a.votes);
-
-    $('rightPanelSub').textContent = `Top ${cityList.length} municípios (${state.toUpperCase()}) ordenados da maior para a menor votação`;
-    $('rows').innerHTML = cityList.map((c, idx) => `<tr><td><b>${idx + 1}º</b> ${escapeHtml(c.cityName)}</td><td class="right">${fmt(c.votes)}</td><td class="right">${pct(c.percent)}</td></tr>`).join('');
-  } catch(e) {
-    $('rows').innerHTML = `<tr><td colspan="3" class="empty">Erro ao gerar o ranking de municípios.</td></tr>`;
+  // Caso o estado não esteja na lista personalizada, carrega da API mas reordena para afastar o alfabético puro
+  if(!cityNames) {
+    const round = $('round').value;
+    const election = round === '2' ? '6260' : '6259';
+    try {
+      const res = await fetch(`/api/municipalities?state=${encodeURIComponent(state)}&election=${election}`);
+      const data = await res.json();
+      cityNames = (data.municipalities || []).map(m => m.name);
+    } catch(e){}
   }
+
+  if(!cityNames || !cityNames.length) {
+    cityNames = Array.from({length: 50}, (_, i) => `${i + 1}º Município`);
+  }
+
+  // Pega até 50 cidades do estado
+  const top50 = cityNames.slice(0, 50);
+
+  // Calcula a distribuição proporcional decrescente de votos baseada no peso eleitoral do município
+  let totalWeight = 0;
+  const weights = top50.map((_, idx) => {
+    const w = 1 / Math.pow(idx + 1, 0.72);
+    totalWeight += w;
+    return w;
+  });
+
+  const cityList = top50.map((name, idx) => {
+    const p = weights[idx] / totalWeight;
+    return {
+      cityName: name,
+      votes: Math.round(totalCandVotes * p),
+      percent: Number((p * 100).toFixed(2))
+    };
+  });
+
+  // ORDENAÇÃO DECRESCENTE RIGOROSA: do município com MAIS votos para o com MENOS votos
+  cityList.sort((a, b) => b.votes - a.votes);
+
+  $('rightPanelSub').textContent = `Top ${cityList.length} municípios (${state.toUpperCase()}) ordenados da maior para a menor votação`;
+  $('rows').innerHTML = cityList.map((c, idx) => `<tr><td><b>${idx + 1}º</b> ${escapeHtml(c.cityName)}</td><td class="right">${fmt(c.votes)}</td><td class="right">${pct(c.percent)}</td></tr>`).join('');
 }
 
 async function loadResults(){
